@@ -19,6 +19,8 @@ def collect_output_files(excel_file, sheet_name="Sheet1"):
     output_files = df['output_file'].tolist()
     return output_files
 
+def test(name):
+    print("my name is, ", name)
 
 if __name__ == "__main__":
     main()

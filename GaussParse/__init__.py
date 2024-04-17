@@ -1,1 +1,1 @@
-from GaussParse.app import collect_output_files, main
+from .app import collect_output_files, main, test

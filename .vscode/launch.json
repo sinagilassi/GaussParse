@@ -10,9 +10,8 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}",
             "env": {
-                "PYTHONPATH": "${env:PYTHONPATH}:/GaussParse"
+                "PYTHONPATH": "${cwd}"
             }
         }
     ]
