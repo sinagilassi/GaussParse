@@ -1,7 +1,14 @@
+# import packages/modules
+# external
+import os
 import pandas as pd
+# internal
+from GaussParse.docs import SummaryResult
+from GaussParse.config import __version__
 
 def main():
-    print('GaussParse is a python package to parse Gaussian output files.')
+    # version
+    print(f'GaussParse {__version__} is a python package to parse Gaussian output files.')
 
 
 def collect_output_files(excel_file, sheet_name="Sheet1"):
@@ -21,6 +28,28 @@ def collect_output_files(excel_file, sheet_name="Sheet1"):
 
 def test(name):
     print("my name is, ", name)
+
+def result_summary_to_excel(src: str):
+    '''
+    Convert summary result to excel file
+
+    input:
+        src: file | folder
+            file format: *.txt
+            folder: all *.txt files in the folder
+
+    output:
+        excel file - return value is True
+    '''
+    try:
+        SummaryResultClass = SummaryResult(src)
+        return SummaryResultClass.toExcel()
+    except Exception:
+        pass
+
+
+def app_dir():
+    return os.path.dirname(os.path.abspath(__file__))
 
 if __name__ == "__main__":
     main()

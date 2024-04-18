@@ -1,1 +1,1 @@
-from .app import collect_output_files, main, test
+from GaussParse.app import result_summary_to_excel, test, app_dir

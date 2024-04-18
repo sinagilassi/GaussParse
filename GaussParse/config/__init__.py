@@ -1,0 +1,1 @@
+from GaussParse.config.constants import __version__
