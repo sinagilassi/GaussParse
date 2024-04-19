@@ -1,0 +1,1 @@
+from GaussParse.handlers.errors import errGeneral

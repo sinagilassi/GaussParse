@@ -1,6 +1,9 @@
+# import packages/modules
+# external
 import os
 import datetime
-
+# local
+from GaussParse.handlers import errGeneral
 
 def CheckFileFormat(file_path):
     '''
@@ -75,12 +78,20 @@ def generateFileName(name):
     generate a file name
     
     args:
-        name: name of the file
+        name: name of the file (without extension)
 
     return:
         a file name
     '''
-    current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    # Concatenate the parts to form the filename
-    filename = f"{name}_{current_time}"
-    return filename
+    try:
+        # check name
+        if " " in name:
+            raise errGeneral(errCode=1, errMessage="Name cannot contain spaces.")
+        
+        # get current time
+        current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        # Concatenate the parts to form the filename
+        filename = f"{name}_{current_time}"
+        return filename
+    except errGeneral as e:
+        print(e)

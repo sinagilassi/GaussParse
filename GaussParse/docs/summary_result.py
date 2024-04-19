@@ -12,7 +12,9 @@ class SummaryResult:
     '''
     summary result class
     '''
-
+    # excel file name
+    excel_default_file_name = 'summary_result'
+    
     def __init__(self, src):
         self.src = src
 
@@ -172,7 +174,7 @@ class SummaryResult:
         '''
         # file name
         if excel_file_name == '':
-            excel_file_name = generateFileName('res')
+            excel_file_name = generateFileName(self.excel_default_file_name)
         
         # update name
         excel_file_name = excel_file_name+'.xlsx'
