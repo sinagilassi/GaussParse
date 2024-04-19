@@ -1,2 +1,2 @@
 # GaussParse
-Parse Gaussian Output Files
+GaussParse is a python package to parse Gaussian output files.
