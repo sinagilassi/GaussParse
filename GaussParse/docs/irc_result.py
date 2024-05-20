@@ -3,24 +3,20 @@
 import pandas as pd
 import os
 import re
-import csv
 # internal
 from GaussParse.utils import CheckFileFormat, checkFile, checkDir, ListFiles, generateFileName
 
 
-class SummaryResult:
+class IRCResult:
     '''
-    Parse result class
+    Parse IRC results
     '''
-    # excel file name
-    excel_default_file_name = 'summary_result'
-    
     def __init__(self, src):
         self.src = src
-
-    def toExcel(self):
+        
+    def toImage(self):
         '''
-        Transform the summary result to excel file
+        Transform the IRC result to image
         '''
         try:
             # check file/folder
@@ -28,7 +24,7 @@ class SummaryResult:
                 # read file
                 fileDir, fileName, fileExtension = CheckFileFormat(self.src)
                 # check extension
-                if fileExtension == '.txt':
+                if fileExtension == '.log':
                     file_dir = fileDir
                     file = fileName+fileExtension
                     file_list = [file]
@@ -39,108 +35,113 @@ class SummaryResult:
                 file_list = ListFiles(file_dir)
 
             # analyze each file
-            analyzed_files = self.AnalyzeFiles(file_dir, file_list)
+            analyzed_files = self.AnalyzeIRC(file_dir, file_list)
             
             # transform to excel
-            self.save_data_to_excel(analyzed_files, excel_file_dir=file_dir)
+            # self.save_data_to_excel(analyzed_files, excel_file_dir=file_dir)
             
             return True
         except Exception:
             pass
 
-    def ReadFile(self, filePath):
+    def ReadIRC(self, filePath):
         '''
-        read the content of file and put the info in a matrix
+        read the content of IRC log file
 
         args:
-            filePath: full name of file with directory and format
+            filePath {str}: full name of file with directory and format
 
         return:
-            res: matrix of info
+            res {tuple}: 
+                fileName {str}: file name
+                item_loc {dict}: 
+                    
+                column_names {List}: list of column names
         '''
         try:
             # file info
             fileDir, fileName, fileExtension = CheckFileFormat(filePath)
 
             # dict
-            item_rows = {}
-            column_names = ['Parameter', 'Value', 'Unit']
+            item_loc = []
+            column_names = ['X', 'Energy', 'RxCoord']
 
             # index
             k = 1
 
             # file open
             with open(filePath, "r") as f:
-                # find main section
-                fContent = f.readlines()
+                # content
+                fContent = f.read()
+                # find
+                str_sub_1 = "Energies reported relative to the TS energy of "
+                i_sub_1 = fContent.rfind(str_sub_1)
+                str_1 = fContent[i_sub_1:]
 
-                for item in fContent:
-                    # to skip empty line
-                    if len(item) > 1:
-                        # set id
-                        _id = "data "+str(k)
-                        # find "=" otherwise is description line
-                        if item.find("=") > -1:
-                            # split: data 1 = data 2
-                            data1, data2 = item.strip().split("=", 1)
+                # split str by lines
+                str_sub_lines = str_1.splitlines()
 
-                            # key
-                            _key = str(data1).replace("\n", "").strip()
+                # energy
+                E_pattern = r"([-+]?\d*\.\d+|\d+)"
+                E_match = re.search(E_pattern, str_sub_lines[0])
+                if E_match:
+                    E = float(E_match.group())
+                    print(E)
+                else:
+                    print("not found: Energies reported relative to the TS energy")
+                    raise
 
-                            # check "space" between number and string
-                            _str_search = data2.strip()
-                            if _str_search.find(" ") > -1:
-                                # check begins with [-][+][number]
-                                if _str_search.startswith("-") or _str_search.startswith("+") or _str_search[0].isdigit():
-                                    # sort data
-                                    _ext = re.search(
-                                        r"([-+]?\d*\.?\d+([eE][-+]?\d+)?)\s*(.*)", _str_search, re.M)
-                                    # check
-                                    if _ext:
-                                        numeric_value = float(_ext.group(1))
-                                        unit = str(_ext.group(3))
-                                else:
-                                    numeric_value = _str_search
-                                    unit = ''
-                            else:
-                                # only one part value (without unit)
-                                # check numeric
-                                _data2 = str(data2).replace(
-                                    "\n", "").replace(".", "").strip()
-                                if _data2.isnumeric():
-                                    # number
-                                    numeric_value = float(data2)
-                                else:
-                                    # string
-                                    numeric_value = data2
-                                unit = ""
+                # separator
+                sep_1 = str_sub_lines[1]
+                # table header
+                table_header = str_sub_lines[2]
 
-                        else:
-                            # description line
-                            _key = str(item).replace("\n", "")
-                            numeric_value = ''
-                            unit = ''
+                # find the second separator
+                k = 0
+                k_set = 4
+                for item in str_sub_lines:
+                    # set regex
+                    _line = item
 
+                    # find
+                    _res = re.search(
+                        r"(\d+)\s+([-+]?\d*\.\d+|\d+)\s+([-+]?\d*\.\d+|\d+)", _line)
+                    # check
+                    if _res:
+                        _X = _res.group(1)
+                        _Energy = _res.group(2)
+                        _RxCoord = _res.group(3)
                         # store
-                        item_rows[_id] = {"Parameter": str(
-                            _key), "Value": numeric_value, "Unit": str(unit)}
+                        _ele = {
+                            'X': int(_X),
+                            'Energy': float(_Energy),
+                            'RxCoord': float(_RxCoord),
+                            'EnergyTotal': float(_Energy) + E,
+                        }
 
-                        # set
-                        k += 1
+                        item_loc.append(_ele)
 
-            return fileName, item_rows, column_names
+                    # check the end of data zone
+                    if k > k_set and item == sep_1:
+                        sep_2 = item
+                        break
+
+                    # update
+                    k += 1
+
+            return fileName, item_loc, column_names
         except Exception as e:
             raise
-
-    def AnalyzeFiles(self, targetPath, fileList):
+        
+    def AnalyzeIRC(self, targetPath, fileList):
         '''
-        analyze each file
+        Analyze every file in the file list
 
         args:
-            targetPath: target folder
-            fileList: list of selected files
+            targetPath {str}: target folder
+            fileList {List[str]}: list of selected files
 
-        output:
+        return:
             res: dict
         '''
         try:
@@ -152,7 +153,7 @@ class SummaryResult:
                     # file path
                     _file_full_path = os.path.join(str(targetPath), str(item))
                     # read file
-                    _res = self.ReadFile(_file_full_path)
+                    _res = self.ReadIRC(_file_full_path)
                     # save
                     res.append(_res)
 
@@ -163,21 +164,19 @@ class SummaryResult:
 
         except Exception as e:
             raise
-
-    def save_data_to_excel(self, d, excel_file_dir='', excel_file_name='', excel_engine='xlsxwriter'):
+        
+    def save_data_to_image(self, d, image_file_dir=''):
         '''
-        save gaussian output.log to excel
+        Save IRC result output.log to image file format
 
         args:
-            d: input data
-                file name
+            d {List[dict]}: input data
+            image_file_dir {str}: file directory used for saving all images
+            
+        return:
+            status {bool}: True for successful action 
         '''
-        # file name
-        if excel_file_name == '':
-            excel_file_name = generateFileName(self.excel_default_file_name)
-        
-        # update name
-        excel_file_name = excel_file_name+'.xlsx'
+ 
         #  excel file path
         if len(excel_file_dir) > 0:
             # chosen path
@@ -194,7 +193,6 @@ class SummaryResult:
         #         writer = pd.ExcelWriter(excel_file_path,engine='xlsxwriter')
         #         # writer.close()
 
-        writer = pd.ExcelWriter(excel_file_path, engine='xlsxwriter')
 
         # add each df to the excel sheet
         for item in d:
