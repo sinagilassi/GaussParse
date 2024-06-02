@@ -14,11 +14,11 @@ class SummaryResult:
     '''
     # excel file name
     excel_default_file_name = 'summary_result'
-    
+
     def __init__(self, src):
         self.src = src
 
-    def toExcel(self):
+    def toImage(self):
         '''
         Transform the summary result to excel file
         '''
@@ -40,10 +40,10 @@ class SummaryResult:
 
             # analyze each file
             analyzed_files = self.AnalyzeFiles(file_dir, file_list)
-            
+
             # transform to excel
             self.save_data_to_excel(analyzed_files, excel_file_dir=file_dir)
-            
+
             return True
         except Exception:
             pass
@@ -175,7 +175,7 @@ class SummaryResult:
         # file name
         if excel_file_name == '':
             excel_file_name = generateFileName(self.excel_default_file_name)
-        
+
         # update name
         excel_file_name = excel_file_name+'.xlsx'
         #  excel file path
