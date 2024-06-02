@@ -85,7 +85,7 @@ def toXYZ(src: str):
     '''
     try:
         StructureClass = Structure(src)
-        return StructureClass.SaveToXYZ()
+        return StructureClass.toXYZ()
     except Exception as e:
         print(e)
 

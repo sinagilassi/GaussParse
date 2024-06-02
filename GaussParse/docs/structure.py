@@ -42,7 +42,7 @@ class Structure():
             self.target_dir = str(file_dir)
 
             # analyze each file
-            analyzed_files = self.AnalyzeXYZLogFiles(file_dir, file_list)
+            analyzed_files = self.AnalyzeFiles(file_dir, file_list)
 
             # transform to excel
             res, _ = self.save_data_to_txt(analyzed_files)
@@ -75,10 +75,7 @@ class Structure():
             self.target_dir = str(file_dir)
 
             # analyze each file
-            analyzed_files = self.AnalyzeXYZLogFiles(file_dir, file_list)
-
-            # transform to excel
-            res, _ = self.save_data_to_txt(analyzed_files)
+            res = self.AnalyzeTxtFiles(file_dir, file_list)
 
             return res
         except Exception as e:
@@ -183,7 +180,7 @@ class Structure():
         except Exception as e:
             raise
 
-    def AnalyzeXYZLogFiles(self, targetPath, fileList):
+    def AnalyzeFiles(self, targetPath, fileList):
         '''
         analyze each file
 
@@ -296,6 +293,37 @@ Number      Number      Symbol                  X           Y           Z
                     f.write('\n')
         # res
         return (True, text_file_path)
+
+    def AnalyzeTxtFiles(self, targetPath, fileList):
+        '''
+        analyze each file
+
+        args:
+            targetPath {str}: target folder
+            fileList {list[str]}: list of selected files
+
+        output:
+            res {dict}: dictionary of input orientation data
+        '''
+        try:
+            # check
+            if len(fileList) > 0:
+                # res
+                res = []
+                for item in fileList:
+                    # file path
+                    _file_full_path = os.path.join(str(targetPath), str(item))
+                    # read file
+                    _res = self.SaveToXYZ(_file_full_path)
+                    # save
+                    res.append(_res)
+
+                # return
+                return res
+            else:
+                raise Exception("file list is empty!")
+        except Exception as e:
+            print(e)
 
     def generate_xyz_file(self, atom_list, file_name="molecule"):
         """
