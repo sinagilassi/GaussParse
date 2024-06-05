@@ -3,7 +3,6 @@
 import pandas as pd
 import os
 import re
-import csv
 # internal
 from GaussParse.utils import CheckFileFormat, checkFile, checkDir, ListFiles, generateFileName
 
@@ -18,7 +17,7 @@ class SummaryResult:
     def __init__(self, src):
         self.src = src
 
-    def toImage(self):
+    def toExcel(self):
         '''
         Transform the summary result to excel file
         '''
@@ -130,7 +129,7 @@ class SummaryResult:
 
             return fileName, item_rows, column_names
         except Exception as e:
-            raise
+            print(e)
 
     def AnalyzeFiles(self, targetPath, fileList):
         '''
@@ -162,7 +161,7 @@ class SummaryResult:
                 raise Exception("file list is empty!")
 
         except Exception as e:
-            raise
+            print(e)
 
     def save_data_to_excel(self, d, excel_file_dir='', excel_file_name='', excel_engine='xlsxwriter'):
         '''

@@ -3,7 +3,7 @@
 import os
 import pandas as pd
 # internal
-from GaussParse.docs import SummaryResult, Structure
+from GaussParse.docs import SummaryResult, Structure, Manager
 from GaussParse.config import __version__
 
 
@@ -33,6 +33,25 @@ def test(name):
     print("my name is, ", name)
 
 
+def collect_files_from(file_path, file_type="Excel", sheet_name='Sheet1', ):
+    '''
+    Collect all gaussian files in a folder
+
+    args:
+        file_path {str}: file path
+        file_type {str}: file type (default: Excel)
+        sheet_name {str}: sheet name (default: Sheet1)
+
+    return:
+        copy all files listed in the source file to a folder
+    '''
+    try:
+        ManagerClass = Manager(file_path, file_type, sheet_name)
+        return ManagerClass.collect_files()
+    except Exception as e:
+        print(e)
+
+
 def result_summary_to_excel(src: str):
     '''
     Convert summary result to excel file
@@ -47,7 +66,7 @@ def result_summary_to_excel(src: str):
     '''
     try:
         SummaryResultClass = SummaryResult(src)
-        return SummaryResultClass.toImage()
+        return SummaryResultClass.toExcel()
     except Exception as e:
         print(e)
 
