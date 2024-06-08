@@ -8,7 +8,7 @@ print(gp.app_dir())
 # collect all files
 # *******************************
 # excel file
-xls_file = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-TS2-data.xlsx'
+xls_file = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\cis-LDO.xlsx'
 # gp.collect_files_from(xls_file, sheet_name="Sheet2")
 
 # *******************************
@@ -21,7 +21,8 @@ xls_file = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\t
 
 # folder
 # gaussian_log_folder = r"D:\OneDrive\Project Analysis\Computational Chemistry\analysis\terpens epoxidation\extract data\aceton-test"
-gaussian_log_folder = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-TS2-data'
+# gaussian_log_folder = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-TS2-data'
+gaussian_log_folder = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\cis-LDO'
 # save in excel
 gp.result_summary_to_excel(gaussian_log_folder)
 

@@ -20,6 +20,9 @@ class SummaryResult:
     def toExcel(self):
         '''
         Transform the summary result to excel file
+
+        return:
+            True
         '''
         try:
             # check file/folder
