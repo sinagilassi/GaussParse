@@ -3,7 +3,7 @@
 import os
 import pandas as pd
 # internal
-from GaussParse.docs import SummaryResult, Structure, Manager
+from GaussParse.docs import SummaryResult, Structure, Manager, PlotResult
 from GaussParse.config import __version__
 
 
@@ -105,6 +105,32 @@ def toXYZ(src: str):
     try:
         StructureClass = Structure(src)
         return StructureClass.toXYZ()
+    except Exception as e:
+        print(e)
+
+
+def plot_energy_profile(file_path, options={}, sheet_name='Sheet1', save_img=True):
+    '''
+    plot energy profile from data stored in an excel file
+
+    args:
+        file_path {str}: file path (xls format)
+        options {dict}: plot options (default)
+        sheet_name {str} : sheet name (default: Sheet1)
+
+    return:
+        display energy plot and save it in file directory
+    '''
+    try:
+        PlotResultClass = PlotResult(file_path, sheet_name)
+        # check manual options
+        if len(options) > 0:
+            res = PlotResultClass.init_plot(
+                manual_options=options, save_img=save_img)
+        else:
+            res = PlotResultClass.init_plot(save_img=save_img)
+        # return
+        return res
     except Exception as e:
         print(e)
 

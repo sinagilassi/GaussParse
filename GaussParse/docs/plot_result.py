@@ -14,12 +14,27 @@ class PlotResult():
     Plot results
     '''
 
-    def __init__(self, src, sheet_name, options):
+    # plot options
+    options = {
+        "plot_type": "linear",
+        "fig_size": [12, 6],
+        "img_name": 'plot',
+        "target_dir": "",
+        "plot_sub": {},
+        "y_label": "Gibbs free energy (kcal/mol)",
+        "x_label": "Reaction coordinate",
+        "plot_title": "",
+        "xlim": [10, 10],
+        "ylim": [5, 5],
+        "label_margin": 4,
+        "y_major_locator": 5,
+    }
+
+    def __init__(self, src, sheet_name):
         self.src = src
         self.sheet_name = sheet_name
-        self.options = options
 
-    def plot_energy(self):
+    def init_plot(self, manual_options={}, save_img=True):
         '''
         Plot energy profile
         '''
@@ -28,6 +43,8 @@ class PlotResult():
             if checkFile(self.src):
                 # read file
                 fileDir, fileName, fileExtension = CheckFileFormat(self.src)
+                # update target
+                self.options['target_dir'] = fileDir
                 # check extension
                 if fileExtension == '.xlsx':
                     file_dir = fileDir
@@ -35,15 +52,31 @@ class PlotResult():
                 else:
                     raise Exception("excel file not found!")
 
+            # update options
+            if len(manual_options) > 0:
+                self.update_plot_options(manual_options)
+
             # load excel data
             dfs = self.excelLoader(self.src)
             # plot
-            self.mPlot(dfs, save_img=True, figsize=[
-                       12, 6], target_dir=fileDir, img_name='plot')
+            self.mPlot(dfs, save_img=save_img)
 
             return True
         except Exception as e:
             print(e)
+
+    def update_plot_options(self, data):
+        '''
+        update plot options
+
+        args:
+            data {dict}: plot options
+        '''
+        for key, value in data.values():
+            if key in self.options:
+                self.options[key] = value
+            else:
+                raise Exception("key not found!")
 
     def setY(self, Y):
         '''
@@ -246,38 +279,54 @@ class PlotResult():
         # res
         return x_mid, y_mid
 
-    def mPlot(self, data, plot_type="linear", save_img=False, img_name="plot", target_dir="", plot_sub={}, y_label="Gibbs free energy (kcal/mol)",
-              x_label="Reaction coordinate", plot_title="", xlim=[10, 10], ylim=[5, 5], label_margin=4, figsize=[10, 6], y_major_locator=5):
+    def mPlot(self, data, save_img):
         '''
         plot data series
 
         args:
             data: list of dict
-            X {list}: X values
-            Y {list}: Y values
-            LABEL {list}: labels
-            LEGEND {list}: legend
-            GROUP {list}: group id
-            COLOR {list}: data series color
-            LABEL_POSITION {list}: set label position on each line (default: top)
-            LABEL_DISPLAY {list}: set label display (Yes/No)
-            Y_POSITION {list}: set label position on each line (default: top)
-            Y_DISPLAY {list}: set label display (Yes/No)
-            plot_type {str}: plot type, linear or gaussian
-            save_img {bool}: set to save plot (default: False)
-            img_name {str}: plot name (file name)
-            target_dir {str}: plot img to target dir
-            plot_sub {dict}: subplot details
-            row {number}: plot row
-            col {number}: plot column
-            y_label {str}: y label text
-            x_label {str}: x label text
-            plot_title {str}: plot title
-            xlim {list[number]}: x-axis range
-            ylim {list[number]}: y-axis range
-            figsize {list[number]}: fig size (default: [10,6])
-            y_major_locator {number}: set y-axis major locator
+            save_img {bool}: set to save plot (default: True)
+
+            other options
+                X {list}: X values
+                Y {list}: Y values
+                LABEL {list}: labels
+                LEGEND {list}: legend
+                GROUP {list}: group id
+                COLOR {list}: data series color
+                LABEL_POSITION {list}: set label position on each line (default: top)
+                LABEL_DISPLAY {list}: set label display (Yes/No)
+                Y_POSITION {list}: set label position on each line (default: top)
+                Y_DISPLAY {list}: set label display (Yes/No)
+                plot_type {str}: plot type, linear or gaussian
+                save_img {bool}: set to save plot (default: False)
+                img_name {str}: plot name (file name)
+                target_dir {str}: plot img to target dir
+                plot_sub {dict}: subplot details
+                row {number}: plot row
+                col {number}: plot column
+                y_label {str}: y label text
+                x_label {str}: x label text
+                plot_title {str}: plot title
+                xlim {list[number]}: x-axis range
+                ylim {list[number]}: y-axis range
+                figsize {list[number]}: fig size (default: [10,6])
+                y_major_locator {number}: set y-axis major locator
         '''
+        # set options
+        plot_type = self.options.get('plot_type')
+        img_name = self.options.get('img_name')
+        target_dir = self.options.get('target_dir')
+        plot_sub = self.options.get('plot_sub')
+        y_label = self.options.get('y_label')
+        x_label = self.options.get('x_label')
+        plot_title = self.options.get('plot_title')
+        xlim = self.options.get('xlim')
+        ylim = self.options.get('ylim')
+        label_margin = self.options.get('label_margin')
+        figsize = self.options.get('fig_size')
+        y_major_locator = self.options.get('y_major_locator')
+
         # create a plot
         fig, ax = plt.subplots(figsize=figsize)
 
