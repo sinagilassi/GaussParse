@@ -1,20 +1,38 @@
 # import packages/modules
 # external
-import pandas as pd
 import os
 import re
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib import ticker
 # internal
-from GaussParse.utils import CheckFileFormat, checkFile, checkDir, ListFiles, generateFileName
+from GaussParse.utils import CheckFileFormat, checkFile, checkDir, ListFiles, generateFileName, EnergyUnit
 
 
 class IRCResult:
     '''
     Parse IRC results
     '''
+    # plot options
+    options = {
+        "fig_size": [12, 6],
+        "img_name": 'img',
+        "target_dir": "",
+        "y_label": "Total Energy",
+        "x_label": "Intrinsic Reaction Coordinate",
+        "xlim": [10, 10],
+        "ylim": [5, 5],
+        "label_margin": 4,
+        "y_major_locator": 5,
+        "plt_style": 'bmh',
+        "line_color": "blue",
+        "y_unit": "Hartree"
+    }
+
     def __init__(self, src):
         self.src = src
-        
-    def toImage(self):
+
+    def toImage(self, manual_options={}):
         '''
         Transform the IRC result to image
         '''
@@ -32,17 +50,37 @@ class IRCResult:
             if checkDir(self.src):
                 # read folder
                 file_dir = self.src
-                file_list = ListFiles(file_dir)
+                file_list = ListFiles(file_dir, fileExtension="log")
+
+            # update options
+            if len(manual_options) > 0:
+                self.update_plot_options(manual_options)
 
             # analyze each file
             analyzed_files = self.AnalyzeIRC(file_dir, file_list)
-            
-            # transform to excel
-            # self.save_data_to_excel(analyzed_files, excel_file_dir=file_dir)
-            
+
+            # plot data and then save
+            self.save_data_to_image(analyzed_files, image_file_dir=file_dir)
+
             return True
         except Exception:
             pass
+
+    def update_plot_options(self, data):
+        '''
+        update plot options
+
+        args:
+            data {dict}: plot options
+        '''
+        try:
+            for key, value in data.items():
+                if key in self.options.keys():
+                    self.options[str(key)] = str(value)
+                else:
+                    raise Exception(f"key {key} not found!")
+        except Exception as e:
+            raise Exception(e)
 
     def ReadIRC(self, filePath):
         '''
@@ -52,10 +90,9 @@ class IRCResult:
             filePath {str}: full name of file with directory and format
 
         return:
-            res {tuple}: 
+            res {tuple}
                 fileName {str}: file name
-                item_loc {dict}: 
-                    
+                item_loc {dict}: irc data
                 column_names {List}: list of column names
         '''
         try:
@@ -86,10 +123,10 @@ class IRCResult:
                 E_match = re.search(E_pattern, str_sub_lines[0])
                 if E_match:
                     E = float(E_match.group())
-                    print(E)
+                    # print(E)
                 else:
-                    print("not found: Energies reported relative to the TS energy")
-                    raise
+                    raise Exception(
+                        "not found: Energies reported relative to the TS energy")
 
                 # separator
                 sep_1 = str_sub_lines[1]
@@ -131,8 +168,8 @@ class IRCResult:
 
             return fileName, item_loc, column_names
         except Exception as e:
-            raise
-        
+            raise Exception(e)
+
     def AnalyzeIRC(self, targetPath, fileList):
         '''
         Analyze every file in the file list
@@ -163,8 +200,8 @@ class IRCResult:
                 raise Exception("file list is empty!")
 
         except Exception as e:
-            raise
-        
+            raise Exception(e)
+
     def save_data_to_image(self, d, image_file_dir=''):
         '''
         Save IRC result output.log to image file format
@@ -172,70 +209,153 @@ class IRCResult:
         args:
             d {List[dict]}: input data
             image_file_dir {str}: file directory used for saving all images
-            
+
         return:
             status {bool}: True for successful action 
         '''
- 
-        #  excel file path
-        if len(excel_file_dir) > 0:
-            # chosen path
-            excel_file_path = os.path.join(
-                excel_file_dir, excel_file_name)
-        else:
-            # current directory
-            excel_file_path = os.getcwd()+'/'+excel_file_name
+        # index
+        data_len = len(d)
 
-        # check file exist
-        # if not os.path.isfile(excel_file_path):
-        #     if not os.path.exists(excel_file_path):
-        #         # create excel file
-        #         writer = pd.ExcelWriter(excel_file_path,engine='xlsxwriter')
-        #         # writer.close()
-
+        # unit class
+        EnergyUnitClass = EnergyUnit(self.options['y_unit'])
 
         # add each df to the excel sheet
         for item in d:
-            # sheet name
-            sheet_name = item[0]
-            sheet_data = list(item[1].values())
-            sheet_column_name = item[2]
+            # extract data
+            file_name = item[0]
+            file_data = item[1]
+            file_column_name = item[2]
 
-            # df
-            df = pd.DataFrame.from_dict(sheet_data)
-            # size
-            row, col = df.shape
+            # img file name
+            img_file_name = file_name.strip()
 
-            # check excel engine
-            if excel_engine == 'xlsxwriter':
-                # store
-                df.to_excel(writer, sheet_name=str(sheet_name),
-                            index=False, header=True, columns=sheet_column_name)
+            #  img file path
+            if len(image_file_dir) == 0:
+                image_file_dir = os.getcwd()
 
-                # workbook and worksheet objects
-                workbook = writer.book
-                worksheet = writer.sheets[str(sheet_name)]
+            # dataframe
+            _df = pd.DataFrame(file_data)
 
-                # set column
-                worksheet.set_column(0, 0, 110)
-                worksheet.set_column(1, 2, 30)
+            # x values
+            _X = _df['RxCoord']
+            X = _X.to_numpy()
 
-                # set boarder
-                border_format = workbook.add_format({'border': 1})
-                worksheet.conditional_format(
-                    0, 0, row, col, {'type': 'no_blanks', 'format': border_format})
-                worksheet.conditional_format(
-                    0, 0, row, col, {'type': 'blanks', 'format': border_format})
+            # y values
+            _Y = _df['EnergyTotal']
+            Y = _Y.to_numpy()
 
+            # check unit
+            if self.options['y_unit'] == "kcal/mol":
+                Y = EnergyUnitClass.hartree_to_kcal_per_mol(Y)
+            elif self.options['y_unit'] == "kJ/mol":
+                Y = EnergyUnitClass.hartree_to_kJ_per_mol(Y)
+            elif self.options['y_unit'] == "eV":
+                Y = EnergyUnitClass.hartree_to_eV(Y)
             else:
-                # store
-                with pd.ExcelWriter(excel_file_path, engine='openpyxl', mode='a', if_sheet_exists="new") as writer2:
-                    try:
-                        df.to_excel(writer2, sheet_name=str(
-                            sheet_name), index=False, header=True, columns=sheet_column_name)
-                    except:
-                        df.to_excel(writer2, sheet_name=str(
-                            sheet_name), index=False)
+                # hartree
+                Y = Y
+
+                # save image
+            self.save_plot(X, Y, file_name, image_file_dir, img_file_name)
+
+            # empty dataframe
+            _df = pd.DataFrame()
+
+        # return
+        return True
+
+    def save_plot(self, X, Y, title, target_dir, img_file_name, display=False, format="png"):
+        '''
+        plot irc profile
+
+        args:
+            X {list}: x values
+            Y {list}: y values
+            title {str}: plot title
+            target_dir {str}: target directory
+            img_file_name {str}: image file name
+            display {bool}: display plot (default: False)
+            format {str}: image format (default: png, others: svg)
+        '''
+        # Add a title to the plot
+        plt.title(title, fontweight='bold', color='black', fontsize=16)
+
+        # styles
+        plt_style = self.options['plt_style']
+        plt.style.use(plt_style)
+
+        # axe labels
+        plt.xlabel(self.options['x_label'],
+                   fontweight='bold', color='black')
+        # set y label
+        _y_label = self.options['y_label'] + \
+            " (" + self.options['y_unit'] + ")"
+        plt.ylabel(_y_label, fontweight='bold', color='black')
+
+        # grid
+        # plt.grid(which='both', color='gray', linestyle='--', linewidth=0.5)
+        # Enable minor ticks
+        plt.minorticks_on()
+        # Customize major grid lines
+        # plt.grid(which='major', color='grey', linestyle='-', linewidth=0.75)
+        # Customize minor grid lines
+        # plt.grid(which='minor', color='gray', linestyle=':', linewidth=0.5)
+
+        # Customize major grid lines
+        plt.grid(which='major', color='grey',
+                 linestyle='-', linewidth=0.5, alpha=0.25)
+        # Customize minor grid lines
+        plt.grid(which='minor', color='gray',
+                 linestyle=':', linewidth=0.4, alpha=0.25)
+
+        # line color
+        line_color = self.options['line_color']
+
+        # plot data
+        plt.plot(X, Y, color=line_color)
+
+        # img file
+        img_file = (img_file_name + "." + format).strip()
+        # img file path
+        img_path = os.path.join(target_dir, img_file)
+
+        # save a figure
+        # check
+        if format == 'svg':
+            # svg
+            plt.savefig(img_path, dpi=300, facecolor='white',
+                        bbox_inches='tight')
+        elif format == 'png':
+            # png
+            plt.savefig(img_path, facecolor='white',
+                        dpi=300, bbox_inches='tight')
+
+        # Customize major tick marks for the current axes
+        # plt.gca().tick_params(axis='both', which='major', length=5, width=1, colors='black', direction='in', labelsize=10)
+        # Customize minor tick marks for the current axes
+        # plt.gca().tick_params(axis='both', which='minor', length=5, width=1, colors='gray', direction='in', labelsize=10)
+        # Set the y-axis limits to display the actual values
+        plt.gca().yaxis.set_major_formatter(
+            ticker.StrMethodFormatter('{x:,.3f}'))
+        # Customize the appearance of the spines
+        plt.gca().spines['top'].set_color('black')
+        plt.gca().spines['right'].set_color('black')
+        plt.gca().spines['bottom'].set_color('black')
+        plt.gca().spines['left'].set_color('black')
+
+        # Set the minimum and maximum values for the x-axis
+        plt.xlim(min(X)-1, max(X)+1)  # Adjust the values as needed
+
+        # check
+        if display:
+            # show
+            plt.show()
 
         # close
-        writer.close()
+        plt.close()
+
+    def change_unit(self, data):
+        '''
+        change unit from Hartree to kcal/mol or kJ/mol
+        '''
+        pass

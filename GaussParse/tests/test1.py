@@ -8,8 +8,8 @@ print("GaussParse: ")
 # collect all files
 # *******************************
 # excel file
-# xls_file = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\frustose-TS2-data.xlsx'
-# gp.collect_files_from(xls_file, sheet_name="Sheet2")
+xls_file = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\fructose-irc-data.xlsx'
+# gp.collect_files_from(xls_file, sheet_name="Sheet1")
 
 # *******************************
 # Save result summary to Excel
@@ -46,6 +46,20 @@ print("GaussParse: ")
 # Save energy profile
 # *******************************
 # file path
-plt_data = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-limonene-mechanism-2\\energy.xlsx'
+# plt_data = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-limonene-mechanism-2\\energy.xlsx'
 # plot energy profile and save it
-gp.plot_energy_profile(plt_data)
+# gp.plot_energy_profile(plt_data)
+
+# *******************************
+# Save IRC profile
+# *******************************
+# file path
+# plt_data = "D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-irc-data\\trans-TS1.log"
+# folder path
+# plt_data = "D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\irc"
+plt_data = "D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\fructose-irc-data"
+# save IRC profile
+# manual_options = {
+#     "y_unit": "kcal/mol"
+# }
+gp.plot_irc_profile(plt_data)

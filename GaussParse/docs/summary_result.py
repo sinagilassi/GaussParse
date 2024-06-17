@@ -237,9 +237,10 @@ class SummaryResult:
                     try:
                         df.to_excel(writer2, sheet_name=str(
                             sheet_name), index=False, header=True, columns=sheet_column_name)
-                    except:
+                    except Exception as e:
                         df.to_excel(writer2, sheet_name=str(
                             sheet_name), index=False)
+                        print(e)
 
         # close
         writer.close()

@@ -72,8 +72,8 @@ class PlotResult():
         args:
             data {dict}: plot options
         '''
-        for key, value in data.values():
-            if key in self.options:
+        for key, value in data.items():
+            if key in self.options.keys():
                 self.options[key] = value
             else:
                 raise Exception("key not found!")
