@@ -7,12 +7,18 @@ from GaussParse.config import __version__
 
 
 def main():
+    '''
+    print app version and description
+    '''
     # version
     print(
         f'GaussParse {__version__} is a python package to parse Gaussian output files.')
 
 
 def app_dir():
+    '''
+    return app directory
+    '''
     return os.path.dirname(os.path.abspath(__file__))
 
 
@@ -37,7 +43,7 @@ def collect_files_from(file_path, file_type="Excel", sheet_name='Sheet1', ):
 
 def result_summary_to_excel(src: str):
     '''
-    Convert summary result to excel file
+    Convert Gaussian summary result text file to excel file
 
     args:
         src {str}: file | folder
@@ -54,9 +60,9 @@ def result_summary_to_excel(src: str):
         print(e)
 
 
-def input_orientation_to_txt(src: str):
+def input_orientation_to_txt(src: str, file_name=""):
     '''
-    Convert input orientation in Gaussian files
+    Save input orientations shown in Gaussian files to a text file
 
     args:
         src {str}: file | folder
@@ -68,19 +74,19 @@ def input_orientation_to_txt(src: str):
     '''
     try:
         StructureClass = Structure(src)
-        return StructureClass.toTxt()
+        return StructureClass.toTxt(file_name)
     except Exception as e:
         print(e)
 
 
-def toXYZ(src: str):
+def txt_orientation_to_xyz(src: str):
     '''
-    load an input orientation file and then transform it to xyz format
+    load an input orientation text file and then transform it to xyz format
 
     args:
         src {str}: file | folder
-            Gaussian file: *.log
-            folder: all Gaussian *.log files in the folder
+            text file: *.txt
+            folder: all text *.txt files in the folder
 
     return:
         xyz file {str} - return value is True
@@ -94,7 +100,7 @@ def toXYZ(src: str):
 
 def plot_energy_profile(file_path, options={}, sheet_name='Sheet1', save_img=True):
     '''
-    plot energy profile from data stored in an excel file
+    Plot energy profile from data stored in an excel file
 
     args:
         file_path {str}: file path (xls format)
@@ -134,7 +140,7 @@ def plot_energy_profile(file_path, options={}, sheet_name='Sheet1', save_img=Tru
 
 def plot_irc_profile(file_path: str, options: dict = {}):
     '''
-    plot IRC profile from gaussian irc log file
+    Plot IRC profile from gaussian irc log file
 
     args:
         file_path {str}: file path (log format)

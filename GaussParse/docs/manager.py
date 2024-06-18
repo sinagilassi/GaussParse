@@ -40,7 +40,8 @@ class Manager():
                     self.collect_files_from_excel()
                 else:
                     raise Exception('file extension is not valid.')
-
+            else:
+                raise Exception('file path is not valid.')
         except Exception as e:
             print(e)
 

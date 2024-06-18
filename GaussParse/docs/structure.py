@@ -4,7 +4,7 @@ import pandas as pd
 import os
 import re
 # internal
-from GaussParse.utils import CheckFileFormat, checkFile, checkDir, ListFiles
+from GaussParse.utils import CheckFileFormat, checkFile, checkDir, ListFiles, generateFileName
 from GaussParse.config import pt_dict
 
 
@@ -18,9 +18,12 @@ class Structure():
         # file path
         self.target_dir = ''
 
-    def toTxt(self):
+    def toTxt(self, file_name):
         '''
         Transform to txt
+
+        args:
+            file_name {str}: file name (if it is empty, generate a name)
         '''
         try:
             # check file/folder
@@ -36,16 +39,20 @@ class Structure():
             if checkDir(self.src):
                 # read folder
                 file_dir = self.src
-                file_list = ListFiles(file_dir)
+                file_list = ListFiles(file_dir, fileExtension="log")
 
             # set
             self.target_dir = str(file_dir)
+
+            # file name
+            if len(file_name) == 0:
+                file_name = generateFileName("molecular-orientation")
 
             # analyze each file
             analyzed_files = self.AnalyzeFiles(file_dir, file_list)
 
             # transform to excel
-            res, _ = self.save_data_to_txt(analyzed_files)
+            res, _ = self.save_data_to_txt(analyzed_files, file_name)
 
             return res
         except Exception as e:
@@ -77,6 +84,7 @@ class Structure():
             # analyze each file
             res = self.AnalyzeTxtFiles(file_dir, file_list)
 
+            # return
             return res
         except Exception as e:
             print(e)
@@ -178,7 +186,7 @@ class Structure():
 
             return fileName, item_conv, item_loc, column_names
         except Exception as e:
-            raise
+            raise Exception(e)
 
     def AnalyzeFiles(self, targetPath, fileList):
         '''
@@ -211,7 +219,7 @@ class Structure():
         except Exception as e:
             print(e)
 
-    def save_data_to_txt(self, d, file_name='res', df_format='string'):
+    def save_data_to_txt(self, d, file_name, df_format='string'):
         '''
         save xyz coordination output.log to txt file such as Notepad
 
@@ -445,3 +453,41 @@ Number      Number      Symbol                  X           Y           Z
             return _file_name, item_conv, item_loc, column_names
         except Exception as e:
             print(e)
+
+    def FindStructures(self, txt_file, display_res=False):
+        '''
+        find structures saved in a text file (.txt)
+
+        args:
+            txt_file {str}: text file
+
+        return:
+            str list
+        '''
+        pattern = re.compile(
+            r'((\w+)?\n)?'
+            r'---------------------------------------------------------------------------------\n'
+            r' Center      Atomic      Atomic                   Coordinates \(Angstroms\)\n'
+            r' Number      Number      Symbol                  X           Y           Z\n'
+            r'---------------------------------------------------------------------------------\n'
+            r'(.*?)\n---------------------------------------------------------------------------------', re.DOTALL)
+
+        # Find all matches
+        matches = pattern.findall(txt_file)
+
+        # res
+        res = []
+
+        # Print each match with the name (if present)
+        for match in matches:
+            full_match, name, coordinates = match
+            name = name if name else "No name"
+            _record = [name, coordinates]
+            res.append(_record)
+            # check
+            if display_res:
+                print(f"Input orientation: {name}")
+                print(coordinates)
+                print('---')
+        # res
+        return res
