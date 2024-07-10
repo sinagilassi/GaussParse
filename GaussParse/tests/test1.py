@@ -1,5 +1,5 @@
-import GaussParse as gp
-print("GaussParse: ")
+# import GaussParse as gp
+# print("GaussParse: ")
 
 # app dir
 # print(gp.app_dir())
@@ -8,7 +8,7 @@ print("GaussParse: ")
 # collect all files
 # *******************************
 # excel file
-xls_file = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\frustose-TS2-data.xlsx'
+# xls_file = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\frustose-TS2-data.xlsx'
 # gp.collect_files_from(xls_file, sheet_name="Sheet1")
 
 # *******************************
@@ -32,7 +32,7 @@ xls_file = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\t
 # file
 # gaussian_log = r"D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-limonene-mechanism-1"
 # gaussian_log = r"D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\fructose-dioxirane-limonene-mechanism-3"
-gaussian_log = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\frustose-TS2-data'
+# gaussian_log = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\frustose-TS2-data'
 # file
 # gaussian_log = r"D:\OneDrive\Project Analysis\Computational Chemistry\models\terpens epoxidation\limonene-dmdo with fructose keton\mechansim 3\step 2\qst3-2\res 1\tight\res 1\g09_exp.log"
 # save in txt
@@ -43,7 +43,7 @@ gaussian_log = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysi
 # *******************************
 # file
 # gaussian_log = r"D:\OneDrive\Project Analysis\Computational Chemistry\models\terpens epoxidation\limonene-dmdo\mechanism 1\step 1\qst3\solvent\res 2\lg bs\res 1\g09_exp.log"
-gaussian_log = r"D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-limonene-mechanism-1\\molecular-orientation_20240617_173242.txt"
+# gaussian_log = r"D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-limonene-mechanism-1\\molecular-orientation_20240617_173242.txt"
 # save in txt
 # gp.txt_orientation_to_xyz(gaussian_log)
 
@@ -51,9 +51,9 @@ gaussian_log = r"D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analys
 # Save energy profile
 # *******************************
 # file path
-plt_data = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-limonene-mechanism-2\\energy.xlsx'
+# plt_data = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-limonene-mechanism-2\\energy.xlsx'
 # plot energy profile and save it
-gp.plot_energy_profile(plt_data)
+# gp.plot_energy_profile(plt_data)
 
 # *******************************
 # Save IRC profile

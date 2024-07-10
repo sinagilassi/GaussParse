@@ -28,15 +28,15 @@ def collect_files_from(file_path, file_type="Excel", sheet_name='Sheet1', ):
 
     Excel file (gaussian log file list.xlsx) located in tests folder
 
-    No | Name | Src
-    ----------------------------
-    1  | file1 | ../file1.txt
+        No | Name | Src
+        ----------------------------
+        1  | file1 | ../file1.txt
 
-    or
+        or
 
-    No | Name | Src
-    ----------------------------
-    1  | file1 | ../file1.log
+        No | Name | Src
+        ----------------------------
+        1  | file1 | ../file1.log
 
     args:
         file_path {str}: file path
@@ -120,21 +120,21 @@ def plot_energy_profile(file_path, options={}, sheet_name='Sheet1', save_img=Tru
 
     Excel file (energy.xlsx) located in tests folder
 
-    Excel file columns including (LABEL, X, Y, GROUP, LEGEND, COLOR, LABEL_POSITION, LABEL_DISPLAY, Y_POSITION, Y_DISPLAY):
+        Excel file columns including (LABEL, X, Y, GROUP, LEGEND, COLOR, LABEL_POSITION, LABEL_DISPLAY, Y_POSITION, Y_DISPLAY):
 
-    LABEL | X | Y | GROUP | LEGEND | COLOR | LABEL_POSITION | LABEL_DISPLAY | Y_POSITION | Y_DISPLAY
-    --------------------------------------------------------------------------------------------------
+        LABEL | X | Y | GROUP | LEGEND | COLOR | LABEL_POSITION | LABEL_DISPLAY | Y_POSITION | Y_DISPLAY
+        --------------------------------------------------------------------------------------------------
 
-    LABEL: label text
-    X: reaction coordinate
-    Y: Gibbs free energy
-    GROUP: indicate data series (id: 1, 2, 3)
-    LEGEND: legend for each data series (short txt)
-    COLOR: data series color (red, green, brown)
-    LABEL_POSITION: label position (top, bottom)
-    LABEL_DISPLAY: display data
-    Y_POSITION: label position (top, bottom)
-    Y_DISPLAY: display data
+        LABEL: label text
+        X: reaction coordinate
+        Y: Gibbs free energy
+        GROUP: indicate data series (id: 1, 2, 3)
+        LEGEND: legend for each data series (short txt)
+        COLOR: data series color (red, green, brown)
+        LABEL_POSITION: label position (top, bottom)
+        LABEL_DISPLAY: display data
+        Y_POSITION: label position (top, bottom)
+        Y_DISPLAY: display data
 
     args:
         file_path {str}: file path (xls format)
