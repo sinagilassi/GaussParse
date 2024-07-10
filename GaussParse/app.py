@@ -24,7 +24,19 @@ def app_dir():
 
 def collect_files_from(file_path, file_type="Excel", sheet_name='Sheet1', ):
     '''
-    Collect all gaussian files in a folder
+    Collect all gaussian files in a folder, excel file format as:
+
+    Excel file (gaussian log file list.xlsx) located in tests folder
+
+    No | Name | Src
+    ----------------------------
+    1  | file1 | ../file1.txt
+
+    or
+
+    No | Name | Src
+    ----------------------------
+    1  | file1 | ../file1.log
 
     args:
         file_path {str}: file path
@@ -43,7 +55,9 @@ def collect_files_from(file_path, file_type="Excel", sheet_name='Sheet1', ):
 
 def result_summary_to_excel(src: str):
     '''
-    Convert Gaussian summary result text file to excel file
+    Convert Gaussian results summary text file to excel file, 
+
+    Results -> Summary (Overview, Thermo, Opt) -> save data (txt file)
 
     args:
         src {str}: file | folder
@@ -62,7 +76,9 @@ def result_summary_to_excel(src: str):
 
 def input_orientation_to_txt(src: str, file_name=""):
     '''
-    Save input orientations shown in Gaussian files to a text file
+    Save input orientations shown in Gaussian files to a text file,
+
+    The Gaussian log file is parsed to extract data, such as the molecular orientation in the x, y, and z coordinates
 
     args:
         src {str}: file | folder
@@ -81,7 +97,7 @@ def input_orientation_to_txt(src: str, file_name=""):
 
 def txt_orientation_to_xyz(src: str):
     '''
-    load an input orientation text file and then transform it to xyz format
+    Load an input orientation text file and then transform it to xyz format
 
     args:
         src {str}: file | folder
@@ -100,7 +116,25 @@ def txt_orientation_to_xyz(src: str):
 
 def plot_energy_profile(file_path, options={}, sheet_name='Sheet1', save_img=True):
     '''
-    Plot energy profile from data stored in an excel file
+    Plot energy profile from data stored in an excel file,
+
+    Excel file (energy.xlsx) located in tests folder
+
+    Excel file columns including (LABEL, X, Y, GROUP, LEGEND, COLOR, LABEL_POSITION, LABEL_DISPLAY, Y_POSITION, Y_DISPLAY):
+
+    LABEL | X | Y | GROUP | LEGEND | COLOR | LABEL_POSITION | LABEL_DISPLAY | Y_POSITION | Y_DISPLAY
+    --------------------------------------------------------------------------------------------------
+
+    LABEL: label text
+    X: reaction coordinate
+    Y: Gibbs free energy
+    GROUP: indicate data series (id: 1, 2, 3)
+    LEGEND: legend for each data series (short txt)
+    COLOR: data series color (red, green, brown)
+    LABEL_POSITION: label position (top, bottom)
+    LABEL_DISPLAY: display data
+    Y_POSITION: label position (top, bottom)
+    Y_DISPLAY: display data
 
     args:
         file_path {str}: file path (xls format)
@@ -141,6 +175,8 @@ def plot_energy_profile(file_path, options={}, sheet_name='Sheet1', save_img=Tru
 def plot_irc_profile(file_path: str, options: dict = {}):
     '''
     Plot IRC profile from gaussian irc log file
+
+    In Gaussian, Results -> IRC/Path... display IRC profile, this figure can be plotted.
 
     args:
         file_path {str}: file path (log format)

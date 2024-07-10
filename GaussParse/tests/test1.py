@@ -36,7 +36,7 @@ gaussian_log = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysi
 # file
 # gaussian_log = r"D:\OneDrive\Project Analysis\Computational Chemistry\models\terpens epoxidation\limonene-dmdo with fructose keton\mechansim 3\step 2\qst3-2\res 1\tight\res 1\g09_exp.log"
 # save in txt
-gp.input_orientation_to_txt(gaussian_log)
+# gp.input_orientation_to_txt(gaussian_log)
 
 # *******************************
 # Transform input orientation to xyz
@@ -51,9 +51,9 @@ gaussian_log = r"D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analys
 # Save energy profile
 # *******************************
 # file path
-# plt_data = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-limonene-mechanism-2\\energy.xlsx'
+plt_data = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-limonene-mechanism-2\\energy.xlsx'
 # plot energy profile and save it
-# gp.plot_energy_profile(plt_data)
+gp.plot_energy_profile(plt_data)
 
 # *******************************
 # Save IRC profile
