@@ -8,7 +8,7 @@ with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
 APP_NAME = 'GaussParse'
-VERSION = '0.1.0'
+VERSION = '1.0.0'
 DESCRIPTION = 'GaussParse is a python package to parse Gaussian output files.'
 LONG_DESCRIPTION = 'GaussParse is a python package to parse Gaussian output files. for instance, it can read log, txt files and convert them to excel/word files.'
 
