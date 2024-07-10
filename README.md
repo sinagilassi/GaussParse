@@ -4,17 +4,17 @@ GaussParse is a versatile Python package designed for parsing output files gener
 
 Key Features:
 
-    Energy Profile Plotting: Visualize and analyze energy profiles directly from Gaussian  output files.
+* Energy Profile Plotting: Visualize and analyze energy profiles directly from Gaussian  output files.
 
-    IRC Curve Plotting: Generate plots of IRC curves to study reaction pathways.
+* IRC Curve Plotting: Generate plots of IRC curves to study reaction pathways.
     
-    Summary Results Extraction: Extract and summarize key computational results from Gaussian calculations.
+* Summary Results Extraction: Extract and summarize key computational results from Gaussian calculations.
     
-    Molecular Orientation Analysis: Retrieve detailed information about molecular orientations and configurations.
+* Molecular Orientation Analysis: Retrieve detailed information about molecular orientations and configurations.
     
-    Publication-Ready Data: Extract molecular orientation data into a Word file formatted for publication as supplementary information.
+* Publication-Ready Data: Extract molecular orientation data into a Word file formatted for publication as supplementary information.
     
-    GaussParse simplifies the process of post-processing Gaussian output, making it an invaluable tool for computational chemists and researchers working in molecular dynamics, quantum chemistry, and related fields.
+* GaussParse simplifies the process of post-processing Gaussian output, making it an invaluable tool for computational chemists and researchers working in molecular dynamics, quantum chemistry, and related fields.
 
 ## Installation
 
@@ -28,13 +28,13 @@ Install this project
 
 Import GaussParse
 
-```
+```python
 import GaussParse as gp
 ```
 
 Available methods
 
-```
+```python
 # *******************************
 # collect all files
 # *******************************
@@ -49,7 +49,6 @@ gp.collect_files_from(xls_file, sheet_name="Sheet1")
 gaussian_log = r"...\1,2LO.txt"
 # save in excel
 gp.result_summary_to_excel(gaussian_log)
-
 
 # *******************************
 # Save input orientation to txt
@@ -99,3 +98,4 @@ For any question, contact me on [LinkedIn](https://www.linkedin.com/in/sina-gila
 ## Authors
 
 - [@sinagilassi](https://www.github.com/sinagilassi)
+
