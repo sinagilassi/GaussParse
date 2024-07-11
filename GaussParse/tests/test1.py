@@ -1,5 +1,8 @@
-# import GaussParse as gp
+import GaussParse as gp
 # print("GaussParse: ")
+
+# version
+print(f"GaussParse version: {gp.__version__}")
 
 # app dir
 # print(gp.app_dir())
