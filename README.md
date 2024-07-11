@@ -35,48 +35,43 @@ import GaussParse as gp
 Available methods
 
 ```python
-# *******************************
 # collect all files
-# *******************************
+
 # excel file
 xls_file = r'...\\frustose-TS2-data.xlsx'
 gp.collect_files_from(xls_file, sheet_name="Sheet1")
 
-# *******************************
+```
+
+```python
 # Save result summary to Excel
-# *******************************
+
 # file
 gaussian_log = r"...\1,2LO.txt"
 # save in excel
 gp.result_summary_to_excel(gaussian_log)
+```
 
-# *******************************
+```python
 # Save input orientation to txt
-# *******************************
+
 # file
 gaussian_log = r"...\\acetone-limonene-mechanism-1"
 # save in txt
 gp.input_orientation_to_txt(gaussian_log)
 
-# *******************************
 # Transform input orientation to xyz
-# *******************************
+
 # file
 gaussian_log = r"...\g09_exp.log"
 # save in txt
 gp.txt_orientation_to_xyz(gaussian_log)
 
-# *******************************
-# Save energy profile
-# *******************************
-# file path
-plt_data = '...\\energy.xlsx'
-# plot energy profile and save it
-gp.plot_energy_profile(plt_data)
+```
 
-# *******************************
+```python
 # Save IRC profile
-# *******************************
+
 # file path
 plt_data = "...\\fructose-irc-data"
 # save IRC profile
@@ -86,6 +81,19 @@ gp.plot_irc_profile(plt_data)
 
 ![Alt text](https://drive.google.com/uc?export=view&id=19qDj4djcjeooLGxhvWLfEK_9rgZIsOXA)
 
+```python
+# Save energy profile
+
+# file path
+plt_data = '...\\energy.xlsx'
+
+# plot energy profile and save it
+gp.plot_energy_profile(plt_data)
+```   
+
+![Alt text](https://drive.google.com/uc?export=view&id=19rKQlVjmXW3IPQYryzIUH-pjsCQVH-3e)
+
+![Alt text](https://drive.google.com/uc?export=view&id=19yZCJRZEzCZOJQesjXFCYAgfyz7kX5vd)
 
 ## License
 
