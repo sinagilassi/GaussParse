@@ -38,10 +38,18 @@ Available methods
 # collect all files
 
 # excel file
-xls_file = r'...\\frustose-TS2-data.xlsx'
+xls_file = r'...\\TS2-data.xlsx'
 gp.collect_files_from(xls_file, sheet_name="Sheet1")
 
 ```
+
+List all the Gaussian log files in an excel file,
+
+![Alt text](https://drive.google.com/uc?export=view&id=1AJOlypBssDNATqbu4tyjszC1rUJJlqEZ)
+
+All the Gaussian log files are saved in a folder:
+
+![Alt text](https://drive.google.com/uc?export=view&id=1AM39B_p5YQKXObORiOvS_4jJnLwqmFsk)
 
 ```python
 # Save result summary to Excel
@@ -52,7 +60,11 @@ gaussian_log = r"...\1,2LO.txt"
 gp.result_summary_to_excel(gaussian_log)
 ```
 
+Results summary as:
+
 ![Alt Results summary](https://drive.google.com/uc?export=view&id=1A1aKcymJ9_W0m5L1Q7lnV8QqR1_igFf2)
+
+The data are saved in an excel file:
 
 ![Alt Excel](https://drive.google.com/uc?export=view&id=1A8m0DQuJULAtnL7J3802LvmLOuasdben)
 
@@ -73,7 +85,11 @@ gp.txt_orientation_to_xyz(gaussian_log)
 
 ```
 
+Gaussian log files (saved in a folder)
+
 ![Alt text](https://drive.google.com/uc?export=view&id=1AJOlypBssDNATqbu4tyjszC1rUJJlqEZ)
+
+The molecular orientation are saved in a text file (Notepad), 
 
 ![Alt text](https://drive.google.com/uc?export=view&id=1AKZW9ZPGlUAHVguPnRrsSTnKrjB3RLO0)
 
@@ -81,11 +97,13 @@ gp.txt_orientation_to_xyz(gaussian_log)
 # Save IRC profile
 
 # file path
-plt_data = "...\\fructose-irc-data"
+plt_data = "...\\g09_exp.log"
 # save IRC profile
 gp.plot_irc_profile(plt_data)
 
 ```
+
+IRC profile:
 
 ![Alt text](https://drive.google.com/uc?export=view&id=19qDj4djcjeooLGxhvWLfEK_9rgZIsOXA)
 
@@ -99,7 +117,11 @@ plt_data = '...\\energy.xlsx'
 gp.plot_energy_profile(plt_data)
 ```   
 
+Load data in an excel file:
+
 ![Alt text](https://drive.google.com/uc?export=view&id=19rKQlVjmXW3IPQYryzIUH-pjsCQVH-3e)
+
+Energy profile:
 
 ![Alt text](https://drive.google.com/uc?export=view&id=19yZCJRZEzCZOJQesjXFCYAgfyz7kX5vd)
 
