@@ -9,7 +9,7 @@ version: 2
 build:
   os: ubuntu-22.04
   tools:
-    python: "3.12"
+    python: "3.7"
     # You can also specify other tool versions:
     # nodejs: "19"
     # rust: "1.64"
@@ -28,6 +28,5 @@ formats:
 # to build your documentation
 # See https://docs.readthedocs.io/en/stable/guides/reproducible-builds.html
 python:
-  version: 3.7  # Adjust version to match compatibility
   install:
     - requirements: docs/requirements.txt
