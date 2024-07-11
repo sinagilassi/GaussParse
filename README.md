@@ -59,7 +59,7 @@ gp.result_summary_to_excel(gaussian_log)
 ```python
 # Save input orientation to txt
 
-# file
+# folder
 gaussian_log = r"...\\acetone-limonene-mechanism-1"
 # save in txt
 gp.input_orientation_to_txt(gaussian_log)
@@ -72,6 +72,10 @@ gaussian_log = r"...\g09_exp.log"
 gp.txt_orientation_to_xyz(gaussian_log)
 
 ```
+
+![Alt text](https://drive.google.com/uc?export=view&id=1AJOlypBssDNATqbu4tyjszC1rUJJlqEZ)
+
+![Alt text](https://drive.google.com/uc?export=view&id=1AKZW9ZPGlUAHVguPnRrsSTnKrjB3RLO0)
 
 ```python
 # Save IRC profile
