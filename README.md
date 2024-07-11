@@ -84,15 +84,8 @@ gp.plot_irc_profile(plt_data)
 
 ```
 
+![Alt text](https://drive.google.com/uc?export=view&id=19qDj4djcjeooLGxhvWLfEK_9rgZIsOXA)
 
-![Alt text](https://drive.google.com/uc?export=view&id=19fc5TJiB8fjIXTyh9hukdA2mNR-lgAXa)
-
-```html
-
-<img src="https://drive.google.com/uc?export=view&id=19fc5TJiB8fjIXTyh9hukdA2mNR-lgAXa" alt="plot" width="250" height="250">
-
-
-```
 
 ## License
 
