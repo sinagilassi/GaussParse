@@ -84,6 +84,8 @@ gp.plot_irc_profile(plt_data)
 
 ```
 
+![Alt text](https://drive.google.com/file/d/19fc5TJiB8fjIXTyh9hukdA2mNR-lgAXa/view?usp=sharing)
+
 
 ## License
 
