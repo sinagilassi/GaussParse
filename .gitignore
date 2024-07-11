@@ -163,7 +163,4 @@ cython_debug/
 # sphinx
 #  Sphinx can also create .doctrees for each HTML page.  These can be ignored
 #  since they are not needed to regenerate the HTML.
-*.doctest
 docs/_build
-docs/build
-docs/
