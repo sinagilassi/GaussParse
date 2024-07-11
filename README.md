@@ -52,6 +52,10 @@ gaussian_log = r"...\1,2LO.txt"
 gp.result_summary_to_excel(gaussian_log)
 ```
 
+![Alt Results summary](https://drive.google.com/uc?export=view&id=1A1aKcymJ9_W0m5L1Q7lnV8QqR1_igFf2)
+
+![Alt Excel](https://drive.google.com/uc?export=view&id=1A8m0DQuJULAtnL7J3802LvmLOuasdben)
+
 ```python
 # Save input orientation to txt
 
