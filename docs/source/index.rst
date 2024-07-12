@@ -21,7 +21,7 @@ Key Features:
    :maxdepth: 2
    :caption: Contents:
 
-   modules
+   GaussParse
    
 Indices and tables
 ==================
