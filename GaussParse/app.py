@@ -33,7 +33,7 @@ def collect_files_from(file_path, file_type="Excel", sheet_name='Sheet1', ):
         file_type {str}: file type (default: Excel)
         sheet_name {str}: sheet name (default: Sheet1)
 
-    return:
+    returns:
         copy all files listed in the source file to a folder
     '''
     try:
@@ -44,19 +44,24 @@ def collect_files_from(file_path, file_type="Excel", sheet_name='Sheet1', ):
 
 
 def result_summary_to_excel(src: str):
-    '''
-    Convert Gaussian results summary text file to excel file, 
+    """
+    Convert Gaussian results summary text file to an Excel file.
 
-    Results -> Summary (Overview, Thermo, Opt) -> save data (txt file)
+    This function takes a file or folder path containing Gaussian results summary text files 
+    and converts them into an Excel file.
 
-    args:
-        src {str}: file | folder
-            file format: *.txt
-            folder: all *.txt files in the folder
+    Args:
+        src {str}: Path to the file or folder containing the summary text files.
+            Gaussian file: .log, 
+            Folder: all Gaussian .log files in the folder.
 
-    return:
-        excel file - return value is True
-    '''
+    Returns:
+        {bool}: True if the conversion was successful.
+
+    Raises:
+        Exception: If there is an error during the conversion process.
+
+    """
     try:
         SummaryResultClass = SummaryResult(src)
         return SummaryResultClass.toExcel()
@@ -65,19 +70,24 @@ def result_summary_to_excel(src: str):
 
 
 def input_orientation_to_txt(src: str, file_name=""):
-    '''
+    """
     Save input orientations shown in Gaussian files to a text file,
 
-    The Gaussian log file is parsed to extract data, such as the molecular orientation in the x, y, and z coordinates
+    The Gaussian log file is parsed to extract data, such as the molecular orientation in the x, y, and z coordinates, 
+    and saves this data to a text file.
 
-    args:
-        src {str}: file | folder
-            Gaussian file: *.log
-            folder: all Gaussian *.log files in the folder
+    Args:
+        src {str}: Path to the file or folder containing the summary text files, 
+            Gaussian file: .log, 
+            Folder: all Gaussian .log files in the folder.
+        file_name (str, optional): Name of the output text file. If not provided, a default name will be used.
 
-    return:
-        txt file {str} - return value is True
-    '''
+    Returns:
+        {bool}: True if the conversion was successful.
+
+    Raises:
+        Exception: If there is an error during the conversion process.
+    """
     try:
         StructureClass = Structure(src)
         return StructureClass.toTxt(file_name)
@@ -91,10 +101,10 @@ def txt_orientation_to_xyz(src: str):
 
     args:
         src {str}: file | folder
-            text file: *.txt
-            folder: all text *.txt files in the folder
+            text file: .txt
+            folder: all text .txt files in the folder
 
-    return:
+    returns:
         xyz file {str} - return value is True
     '''
     try:
@@ -109,21 +119,19 @@ def plot_energy_profile(file_path, options={}, sheet_name='Sheet1', save_img=Tru
     Plot energy profile from data stored in an excel file,
 
     Excel file (energy.xlsx) located in tests folder
-
     Excel file columns including (LABEL, X, Y, GROUP, LEGEND, COLOR, LABEL_POSITION, LABEL_DISPLAY, Y_POSITION, Y_DISPLAY):
-
     LABEL | X | Y | GROUP | LEGEND | COLOR | LABEL_POSITION | LABEL_DISPLAY | Y_POSITION | Y_DISPLAY
 
-    LABEL: label text
-    X: reaction coordinate
-    Y: Gibbs free energy
-    GROUP: indicate data series (id: 1, 2, 3)
-    LEGEND: legend for each data series (short txt)
-    COLOR: data series color (red, green, brown)
-    LABEL_POSITION: label position (top, bottom)
-    LABEL_DISPLAY: display data
-    Y_POSITION: label position (top, bottom)
-    Y_DISPLAY: display data
+        LABEL: label text
+        X: reaction coordinate
+        Y: Gibbs free energy
+        GROUP: indicate data series (id: 1, 2, 3)
+        LEGEND: legend for each data series (short txt)
+        COLOR: data series color (red, green, brown)
+        LABEL_POSITION: label position (top, bottom)
+        LABEL_DISPLAY: display data
+        Y_POSITION: label position (top, bottom)
+        Y_DISPLAY: display data
 
     args:
         file_path {str}: file path (xls format)
