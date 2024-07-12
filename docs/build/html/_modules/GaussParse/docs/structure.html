@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GaussParse.docs.structure &mdash; GaussParse 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=fc837d61"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            GaussParse
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">GaussParse</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">GaussParse</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">GaussParse.docs.structure</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for GaussParse.docs.structure</h1><div class="highlight"><pre>
+<span></span><span class="c1"># import packages/modules</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="c1"># internal</span>
+<span class="kn">from</span> <span class="nn">GaussParse.utils</span> <span class="kn">import</span> <span class="n">CheckFileFormat</span><span class="p">,</span> <span class="n">checkFile</span><span class="p">,</span> <span class="n">checkDir</span><span class="p">,</span> <span class="n">ListFiles</span><span class="p">,</span> <span class="n">generateFileName</span>
+<span class="kn">from</span> <span class="nn">GaussParse.config</span> <span class="kn">import</span> <span class="n">pt_dict</span>
+
+
+<div class="viewcode-block" id="Structure">
+<a class="viewcode-back" href="../../../GaussParse.docs.html#GaussParse.docs.structure.Structure">[docs]</a>
+<span class="k">class</span> <span class="nc">Structure</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Analyze input orientation</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">src</span> <span class="o">=</span> <span class="n">src</span>
+        <span class="c1"># file path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_dir</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+<div class="viewcode-block" id="Structure.toTxt">
+<a class="viewcode-back" href="../../../GaussParse.docs.html#GaussParse.docs.structure.Structure.toTxt">[docs]</a>
+    <span class="k">def</span> <span class="nf">toTxt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Transform to txt</span>
+
+<span class="sd">        args:</span>
+<span class="sd">            file_name {str}: file name (if it is empty, generate a name)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># check file/folder</span>
+            <span class="k">if</span> <span class="n">checkFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">src</span><span class="p">):</span>
+                <span class="c1"># read file</span>
+                <span class="n">fileDir</span><span class="p">,</span> <span class="n">fileName</span><span class="p">,</span> <span class="n">fileExtension</span> <span class="o">=</span> <span class="n">CheckFileFormat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">src</span><span class="p">)</span>
+                <span class="c1"># check extension</span>
+                <span class="k">if</span> <span class="n">fileExtension</span> <span class="o">==</span> <span class="s1">&#39;.log&#39;</span><span class="p">:</span>
+                    <span class="n">file_dir</span> <span class="o">=</span> <span class="n">fileDir</span>
+                    <span class="n">file</span> <span class="o">=</span> <span class="n">fileName</span><span class="o">+</span><span class="n">fileExtension</span>
+                    <span class="n">file_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">file</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">checkDir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">src</span><span class="p">):</span>
+                <span class="c1"># read folder</span>
+                <span class="n">file_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">src</span>
+                <span class="n">file_list</span> <span class="o">=</span> <span class="n">ListFiles</span><span class="p">(</span><span class="n">file_dir</span><span class="p">,</span> <span class="n">fileExtension</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+
+            <span class="c1"># set</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">target_dir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">file_dir</span><span class="p">)</span>
+
+            <span class="c1"># file name</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">file_name</span> <span class="o">=</span> <span class="n">generateFileName</span><span class="p">(</span><span class="s2">&quot;molecular-orientation&quot;</span><span class="p">)</span>
+
+            <span class="c1"># analyze each file</span>
+            <span class="n">analyzed_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AnalyzeFiles</span><span class="p">(</span><span class="n">file_dir</span><span class="p">,</span> <span class="n">file_list</span><span class="p">)</span>
+
+            <span class="c1"># transform to excel</span>
+            <span class="n">res</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_data_to_txt</span><span class="p">(</span><span class="n">analyzed_files</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">res</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Structure.toXYZ">
+<a class="viewcode-back" href="../../../GaussParse.docs.html#GaussParse.docs.structure.Structure.toXYZ">[docs]</a>
+    <span class="k">def</span> <span class="nf">toXYZ</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Transform to xyz format</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># check file/folder</span>
+            <span class="k">if</span> <span class="n">checkFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">src</span><span class="p">):</span>
+                <span class="c1"># read file</span>
+                <span class="n">fileDir</span><span class="p">,</span> <span class="n">fileName</span><span class="p">,</span> <span class="n">fileExtension</span> <span class="o">=</span> <span class="n">CheckFileFormat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">src</span><span class="p">)</span>
+                <span class="c1"># check extension</span>
+                <span class="k">if</span> <span class="n">fileExtension</span> <span class="o">==</span> <span class="s1">&#39;.txt&#39;</span><span class="p">:</span>
+                    <span class="n">file_dir</span> <span class="o">=</span> <span class="n">fileDir</span>
+                    <span class="n">file</span> <span class="o">=</span> <span class="n">fileName</span><span class="o">+</span><span class="n">fileExtension</span>
+                    <span class="n">file_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">file</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">checkDir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">src</span><span class="p">):</span>
+                <span class="c1"># read folder</span>
+                <span class="n">file_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">src</span>
+                <span class="n">file_list</span> <span class="o">=</span> <span class="n">ListFiles</span><span class="p">(</span><span class="n">file_dir</span><span class="p">)</span>
+
+            <span class="c1"># set</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">target_dir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">file_dir</span><span class="p">)</span>
+
+            <span class="c1"># analyze each file</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AnalyzeTxtFiles</span><span class="p">(</span><span class="n">file_dir</span><span class="p">,</span> <span class="n">file_list</span><span class="p">)</span>
+
+            <span class="c1"># return</span>
+            <span class="k">return</span> <span class="n">res</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Structure.ReadXYZLogFile">
+<a class="viewcode-back" href="../../../GaussParse.docs.html#GaussParse.docs.structure.Structure.ReadXYZLogFile">[docs]</a>
+    <span class="k">def</span> <span class="nf">ReadXYZLogFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">,</span> <span class="n">pt_dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        read the content of log file</span>
+
+<span class="sd">        args:</span>
+<span class="sd">            filePath {str}: full name of file with directory and format</span>
+<span class="sd">            pt_dict {dict}: parodic table dict</span>
+
+<span class="sd">        return:</span>
+<span class="sd">            res {dict}: dictionary data</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># file info</span>
+            <span class="n">fileDir</span><span class="p">,</span> <span class="n">fileName</span><span class="p">,</span> <span class="n">fileExtension</span> <span class="o">=</span> <span class="n">CheckFileFormat</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
+
+            <span class="c1"># dict</span>
+            <span class="n">item_loc</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">item_conv</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">column_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Center Number&#39;</span><span class="p">,</span> <span class="s1">&#39;Atomic Number&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;Atomic Symbol&#39;</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">]</span>
+
+            <span class="c1"># index</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span>
+
+            <span class="c1"># file open</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="c1"># find</span>
+                <span class="n">fContent</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+                <span class="c1"># find</span>
+                <span class="c1"># ---------------------------------------------------------------------</span>
+                <span class="c1"># Center     Atomic      Atomic             Coordinates (Angstroms)</span>
+                <span class="c1"># Number     Number       Type             X           Y           Z</span>
+                <span class="c1"># ---------------------------------------------------------------------</span>
+                <span class="c1"># str_sub_1 = &#39;Number     Number              X              Y              Z&#39;</span>
+                <span class="n">str_sub_1</span> <span class="o">=</span> <span class="s1">&#39;Center     Atomic      Atomic             Coordinates (Angstroms)&#39;</span>
+                <span class="n">i_sub_1</span> <span class="o">=</span> <span class="n">fContent</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="n">str_sub_1</span><span class="p">)</span>
+                <span class="n">str_1</span> <span class="o">=</span> <span class="n">fContent</span><span class="p">[</span><span class="n">i_sub_1</span><span class="p">:]</span>
+
+                <span class="c1"># split str by lines</span>
+                <span class="n">str_sub_lines</span> <span class="o">=</span> <span class="n">str_1</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+
+                <span class="c1"># coordinate</span>
+                <span class="n">coordinate_1</span> <span class="o">=</span> <span class="n">str_sub_lines</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+                <span class="c1"># separator</span>
+                <span class="n">sep_1</span> <span class="o">=</span> <span class="n">str_sub_lines</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+                <span class="c1"># find the second separator</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">str_sub_lines</span><span class="p">:</span>
+                    <span class="c1"># set regex</span>
+                    <span class="n">_line</span> <span class="o">=</span> <span class="n">item</span>
+
+                    <span class="c1"># find</span>
+                    <span class="c1"># force - groups(5)</span>
+                    <span class="c1"># _res = re.search(r&quot;\s+(\d+)\s+(\d+)\s+([-+]?\d*\.\d+)\s+([-+]?\d*\.\d+)\s+([-+]?\d*\.\d+)&quot;, _line)</span>
+                    <span class="c1"># coordinate - groups(6)</span>
+                    <span class="n">_res</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+                        <span class="sa">r</span><span class="s2">&quot;\s+(\d+)\s+(\d+)\s+(\w+)\s+([-+]?\d*\.\d+)\s+([-+]?\d*\.\d+)\s+([-+]?\d*\.\d+)&quot;</span><span class="p">,</span> <span class="n">_line</span><span class="p">)</span>
+                    <span class="c1"># regex 1</span>
+                    <span class="c1"># \s+(\d+)\s+(\d+)\s+(\d+)\s+([-+]?\d*\.\d+)\s+([-+]?\d*\.\d+)\s+([-+]?\d*\.\d+)</span>
+                    <span class="c1"># regex 2</span>
+                    <span class="c1"># \s+(\d+)\s+(\d+)\s+(\w+)\s+([-+]?\d*\.\d+)\s+([-+]?\d*\.\d+)\s+([-+]?\d*\.\d+)</span>
+                    <span class="c1"># check</span>
+                    <span class="k">if</span> <span class="n">_res</span><span class="p">:</span>
+                        <span class="n">_center_number</span> <span class="o">=</span> <span class="n">_res</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                        <span class="n">_atomic_number</span> <span class="o">=</span> <span class="n">_res</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+                        <span class="n">_atomic_type</span> <span class="o">=</span> <span class="n">_res</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+                        <span class="n">_X</span> <span class="o">=</span> <span class="n">_res</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+                        <span class="n">_Y</span> <span class="o">=</span> <span class="n">_res</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+                        <span class="n">_Z</span> <span class="o">=</span> <span class="n">_res</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+
+                        <span class="c1"># atomic symbol</span>
+                        <span class="n">_atomic_symbol</span> <span class="o">=</span> <span class="n">pt_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                            <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">_atomic_number</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="s1">&#39;Symbol&#39;</span><span class="p">]</span>
+                        <span class="c1"># store</span>
+                        <span class="n">_ele</span> <span class="o">=</span> <span class="p">{</span>
+                            <span class="s1">&#39;Center Number&#39;</span><span class="p">:</span> <span class="n">_center_number</span><span class="p">,</span>
+                            <span class="s1">&#39;Atomic Number&#39;</span><span class="p">:</span> <span class="n">_atomic_number</span><span class="p">,</span>
+                            <span class="s1">&#39;Atomic Symbol&#39;</span><span class="p">:</span> <span class="n">_atomic_symbol</span><span class="p">,</span>
+                            <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="n">_X</span><span class="p">,</span>
+                            <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="n">_Y</span><span class="p">,</span>
+                            <span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="n">_Z</span>
+                        <span class="p">}</span>
+
+                        <span class="n">item_loc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_ele</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">item</span> <span class="o">==</span> <span class="n">sep_1</span><span class="p">:</span>
+                        <span class="n">sep_2</span> <span class="o">=</span> <span class="n">item</span>
+                        <span class="k">break</span>
+
+                    <span class="c1"># update</span>
+                    <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">return</span> <span class="n">fileName</span><span class="p">,</span> <span class="n">item_conv</span><span class="p">,</span> <span class="n">item_loc</span><span class="p">,</span> <span class="n">column_names</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Structure.AnalyzeFiles">
+<a class="viewcode-back" href="../../../GaussParse.docs.html#GaussParse.docs.structure.Structure.AnalyzeFiles">[docs]</a>
+    <span class="k">def</span> <span class="nf">AnalyzeFiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targetPath</span><span class="p">,</span> <span class="n">fileList</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        analyze each file</span>
+
+<span class="sd">        args:</span>
+<span class="sd">            targetPath {str}: target folder</span>
+<span class="sd">            fileList {list[str]}: list of selected files</span>
+
+<span class="sd">        output:</span>
+<span class="sd">            res {dict}: dictionary of input orientation data</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># check</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fileList</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># res</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">fileList</span><span class="p">:</span>
+                    <span class="c1"># file path</span>
+                    <span class="n">_file_full_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">targetPath</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
+                    <span class="c1"># read file</span>
+                    <span class="n">_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ReadXYZLogFile</span><span class="p">(</span><span class="n">_file_full_path</span><span class="p">,</span> <span class="n">pt_dict</span><span class="p">)</span>
+                    <span class="c1"># save</span>
+                    <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_res</span><span class="p">)</span>
+
+                <span class="c1"># return</span>
+                <span class="k">return</span> <span class="n">res</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;file list is empty!&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Structure.save_data_to_txt">
+<a class="viewcode-back" href="../../../GaussParse.docs.html#GaussParse.docs.structure.Structure.save_data_to_txt">[docs]</a>
+    <span class="k">def</span> <span class="nf">save_data_to_txt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">df_format</span><span class="o">=</span><span class="s1">&#39;string&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        save xyz coordination output.log to txt file such as Notepad</span>
+
+<span class="sd">        args:</span>
+<span class="sd">            d {list}: input data</span>
+<span class="sd">            file name {str}: file name, default: res.txt</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="c1"># text file path</span>
+        <span class="n">_file_name</span> <span class="o">=</span> <span class="n">file_name</span> <span class="o">+</span> <span class="s1">&#39;.txt&#39;</span>
+        <span class="c1"># text_file_path = os.getcwd() + &#39;/&#39; + file_name + &#39;.txt&#39;</span>
+        <span class="n">text_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target_dir</span><span class="p">,</span> <span class="n">_file_name</span><span class="p">)</span>
+
+        <span class="c1"># open the text file in write mode</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">text_file_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="c1"># add each df to the text file</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+                <span class="c1"># sheet name</span>
+                <span class="n">file_name_full</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">item_conv</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">item_loc</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">column_names</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+                <span class="c1"># df</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">item_loc</span><span class="p">)</span>
+
+                <span class="c1"># check df format</span>
+                <span class="k">if</span> <span class="n">df_format</span> <span class="o">==</span> <span class="s1">&#39;string&#39;</span><span class="p">:</span>
+                    <span class="c1"># df to string</span>
+                    <span class="n">df_string</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span>
+                        <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">col_space</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+                    <span class="c1"># Add 6 spaces indent to each line</span>
+                    <span class="n">indented_df_string</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                        <span class="p">[</span><span class="s1">&#39;      &#39;</span> <span class="o">+</span> <span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">df_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)])</span>
+
+                    <span class="c1"># sep lin</span>
+                    <span class="n">sep_line</span> <span class="o">=</span> <span class="s1">&#39;---------------------------------------------------------------------------------&#39;</span>
+                    <span class="c1"># Split the string into lines</span>
+                    <span class="n">lines</span> <span class="o">=</span> <span class="n">indented_df_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+                    <span class="c1"># find atomic symbol</span>
+                    <span class="c1"># atomic_numbers = [item.split(&quot; &quot;)[0] for item in lines]</span>
+
+                    <span class="c1"># Find the maximum length of the lines</span>
+                    <span class="n">max_length</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">)</span>
+
+                    <span class="c1"># write file name as heading</span>
+                    <span class="c1"># f.write(&#39;-&#39; * max_length + &#39;\n&#39;)</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Input orientation: &quot;</span><span class="o">+</span><span class="n">file_name_full</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="c1"># f.write(&#39;-&#39; * max_length + &#39;\n&#39;)</span>
+
+                    <span class="c1"># write df string to the text file</span>
+                    <span class="c1"># header line</span>
+                    <span class="c1"># f.write(lines[0] + &#39;\n&#39;)</span>
+
+                    <span class="n">_header</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;---------------------------------------------------------------------------------</span>
+<span class="s2">Center      Atomic      Atomic                   Coordinates (Angstroms)</span>
+<span class="s2">Number      Number      Symbol                  X           Y           Z</span>
+<span class="s2">---------------------------------------------------------------------------------</span>
+<span class="s2">&quot;&quot;&quot;</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">_header</span><span class="p">)</span>
+
+                    <span class="c1"># content</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">indented_df_string</span><span class="p">[</span><span class="n">max_length</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+                    <span class="c1"># last line</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">sep_line</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># write file name as heading</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file_name_full</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">file_name_full</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+                    <span class="c1"># write the header</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+                    <span class="c1"># write the rest of the data frame</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="c1"># res</span>
+        <span class="k">return</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">text_file_path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Structure.AnalyzeTxtFiles">
+<a class="viewcode-back" href="../../../GaussParse.docs.html#GaussParse.docs.structure.Structure.AnalyzeTxtFiles">[docs]</a>
+    <span class="k">def</span> <span class="nf">AnalyzeTxtFiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targetPath</span><span class="p">,</span> <span class="n">fileList</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        analyze each file</span>
+
+<span class="sd">        args:</span>
+<span class="sd">            targetPath {str}: target folder</span>
+<span class="sd">            fileList {list[str]}: list of selected files</span>
+
+<span class="sd">        output:</span>
+<span class="sd">            res {dict}: dictionary of input orientation data</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># check</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fileList</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># res</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">fileList</span><span class="p">:</span>
+                    <span class="c1"># file path</span>
+                    <span class="n">_file_full_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">targetPath</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
+                    <span class="c1"># read file</span>
+                    <span class="n">_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SaveToXYZ</span><span class="p">(</span><span class="n">_file_full_path</span><span class="p">)</span>
+                    <span class="c1"># save</span>
+                    <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_res</span><span class="p">)</span>
+
+                <span class="c1"># return</span>
+                <span class="k">return</span> <span class="n">res</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;file list is empty!&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Structure.generate_xyz_file">
+<a class="viewcode-back" href="../../../GaussParse.docs.html#GaussParse.docs.structure.Structure.generate_xyz_file">[docs]</a>
+    <span class="k">def</span> <span class="nf">generate_xyz_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atom_list</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s2">&quot;molecule&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates an XYZ file from a list of atom positions with nicely formatted columns.</span>
+
+<span class="sd">        args:</span>
+<span class="sd">        atom_list {list of tuples}: Each tuple contains an element symbol and its x, y, z coordinates.</span>
+<span class="sd">        file_name {str}: The name of the output XYZ file.</span>
+
+<span class="sd">        return:</span>
+<span class="sd">        file name</span>
+
+<span class="sd">        Example input for methane (CH4):</span>
+<span class="sd">        atom_list = [</span>
+<span class="sd">            (&quot;C&quot;, 0.000000, 0.000000, 0.000000),</span>
+<span class="sd">            (&quot;H&quot;, 0.000000, 0.000000, 1.089000),</span>
+<span class="sd">            (&quot;H&quot;, 1.026719, 0.000000, -0.363000),</span>
+<span class="sd">            (&quot;H&quot;, -0.513360, -0.889165, -0.363000),</span>
+<span class="sd">            (&quot;H&quot;, -0.513360, 0.889165, -0.363000)</span>
+<span class="sd">        ]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># number of atoms</span>
+        <span class="n">num_atoms</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">atom_list</span><span class="p">)</span>
+        <span class="c1"># file</span>
+        <span class="n">_file</span> <span class="o">=</span> <span class="n">file_name</span><span class="o">+</span><span class="s2">&quot;.xyz&quot;</span>
+        <span class="c1"># save</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">num_atoms</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">atom_list</span><span class="p">:</span>
+                <span class="n">element</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">atom</span>
+                <span class="c1"># file.write(f&quot;{element}\t{x:.6f}\t{y:.6f}\t{z:.6f}\n&quot;)</span>
+                <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">element</span><span class="si">:</span><span class="s2">&lt;2</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">&gt; 10.6f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">y</span><span class="si">:</span><span class="s2">&gt; 10.6f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">z</span><span class="si">:</span><span class="s2">&gt; 10.6f</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># file name</span>
+        <span class="k">return</span> <span class="n">_file</span></div>
+
+
+<div class="viewcode-block" id="Structure.SaveToXYZ">
+<a class="viewcode-back" href="../../../GaussParse.docs.html#GaussParse.docs.structure.Structure.SaveToXYZ">[docs]</a>
+    <span class="k">def</span> <span class="nf">SaveToXYZ</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        read the content of txt file</span>
+
+<span class="sd">        args:</span>
+<span class="sd">            file_path {str}: full name of file with directory and format</span>
+
+<span class="sd">        return:</span>
+<span class="sd">            res {dict}: dictionary data</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># file info</span>
+            <span class="n">fileDir</span><span class="p">,</span> <span class="n">fileName</span><span class="p">,</span> <span class="n">fileExtension</span> <span class="o">=</span> <span class="n">CheckFileFormat</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+            <span class="c1"># dict</span>
+            <span class="n">item_loc</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">item_conv</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">column_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Center Number&#39;</span><span class="p">,</span> <span class="s1">&#39;Atomic Number&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;Atomic Symbol&#39;</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">]</span>
+
+            <span class="c1"># index</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span>
+
+            <span class="c1"># file open</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="c1"># find</span>
+                <span class="n">fContent</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+                <span class="c1"># lines</span>
+                <span class="n">lines</span> <span class="o">=</span> <span class="n">fContent</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+                <span class="c1"># title</span>
+                <span class="n">title</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">sep_1</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+                <span class="c1"># split str by lines</span>
+                <span class="n">str_sub_lines</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
+
+                <span class="c1"># find the second separator</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">str_sub_lines</span><span class="p">:</span>
+                    <span class="c1"># set regex</span>
+                    <span class="n">_line</span> <span class="o">=</span> <span class="n">item</span>
+
+                    <span class="c1"># find</span>
+                    <span class="c1"># force - groups(5)</span>
+                    <span class="c1"># _res = re.search(r&quot;\s+(\d+)\s+(\d+)\s+([-+]?\d*\.\d+)\s+([-+]?\d*\.\d+)\s+([-+]?\d*\.\d+)&quot;, _line)</span>
+                    <span class="c1"># coordinate - groups(6)</span>
+                    <span class="n">_res</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+                        <span class="sa">r</span><span class="s2">&quot;\s+(\d+)\s+(\d+)\s+(\w+)\s+([-+]?\d*\.\d+)\s+([-+]?\d*\.\d+)\s+([-+]?\d*\.\d+)&quot;</span><span class="p">,</span> <span class="n">_line</span><span class="p">)</span>
+                    <span class="c1"># regex 1</span>
+                    <span class="c1"># \s+(\d+)\s+(\d+)\s+(\d+)\s+([-+]?\d*\.\d+)\s+([-+]?\d*\.\d+)\s+([-+]?\d*\.\d+)</span>
+                    <span class="c1"># regex 2</span>
+                    <span class="c1"># \s+(\d+)\s+(\d+)\s+(\w+)\s+([-+]?\d*\.\d+)\s+([-+]?\d*\.\d+)\s+([-+]?\d*\.\d+)</span>
+                    <span class="c1"># check</span>
+                    <span class="k">if</span> <span class="n">_res</span><span class="p">:</span>
+                        <span class="n">_center_number</span> <span class="o">=</span> <span class="n">_res</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                        <span class="n">_atomic_number</span> <span class="o">=</span> <span class="n">_res</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+                        <span class="n">_atomic_symbol</span> <span class="o">=</span> <span class="n">_res</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+                        <span class="n">_X</span> <span class="o">=</span> <span class="n">_res</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+                        <span class="n">_Y</span> <span class="o">=</span> <span class="n">_res</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+                        <span class="n">_Z</span> <span class="o">=</span> <span class="n">_res</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+
+                        <span class="c1"># store</span>
+                        <span class="n">_ele</span> <span class="o">=</span> <span class="p">(</span><span class="n">_atomic_symbol</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span>
+                            <span class="n">_X</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">_Y</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">_Z</span><span class="p">))</span>
+
+                        <span class="n">item_loc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_ele</span><span class="p">)</span>
+                    <span class="c1"># else:</span>
+                    <span class="c1">#   print(f&quot;{_res},{k}&quot;)</span>
+
+                    <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="n">sep_1</span><span class="p">:</span>
+                        <span class="n">sep_2</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                        <span class="k">break</span>
+
+                    <span class="c1"># update</span>
+                    <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># save xyz file</span>
+            <span class="n">_file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_xyz_file</span><span class="p">(</span><span class="n">item_loc</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">_file_name</span><span class="p">,</span> <span class="n">item_conv</span><span class="p">,</span> <span class="n">item_loc</span><span class="p">,</span> <span class="n">column_names</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Structure.FindStructures">
+<a class="viewcode-back" href="../../../GaussParse.docs.html#GaussParse.docs.structure.Structure.FindStructures">[docs]</a>
+    <span class="k">def</span> <span class="nf">FindStructures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">txt_file</span><span class="p">,</span> <span class="n">display_res</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        find structures saved in a text file (.txt)</span>
+
+<span class="sd">        args:</span>
+<span class="sd">            txt_file {str}: text file</span>
+
+<span class="sd">        return:</span>
+<span class="sd">            str list</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+            <span class="sa">r</span><span class="s1">&#39;((\w+)?\n)?&#39;</span>
+            <span class="sa">r</span><span class="s1">&#39;---------------------------------------------------------------------------------\n&#39;</span>
+            <span class="sa">r</span><span class="s1">&#39; Center      Atomic      Atomic                   Coordinates \(Angstroms\)\n&#39;</span>
+            <span class="sa">r</span><span class="s1">&#39; Number      Number      Symbol                  X           Y           Z\n&#39;</span>
+            <span class="sa">r</span><span class="s1">&#39;---------------------------------------------------------------------------------\n&#39;</span>
+            <span class="sa">r</span><span class="s1">&#39;(.*?)\n---------------------------------------------------------------------------------&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+
+        <span class="c1"># Find all matches</span>
+        <span class="n">matches</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">txt_file</span><span class="p">)</span>
+
+        <span class="c1"># res</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Print each match with the name (if present)</span>
+        <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
+            <span class="n">full_match</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">coordinates</span> <span class="o">=</span> <span class="n">match</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="k">if</span> <span class="n">name</span> <span class="k">else</span> <span class="s2">&quot;No name&quot;</span>
+            <span class="n">_record</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">]</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_record</span><span class="p">)</span>
+            <span class="c1"># check</span>
+            <span class="k">if</span> <span class="n">display_res</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input orientation: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;---&#39;</span><span class="p">)</span>
+        <span class="c1"># res</span>
+        <span class="k">return</span> <span class="n">res</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Sina Gilassi.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

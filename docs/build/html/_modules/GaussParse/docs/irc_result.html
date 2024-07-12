@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GaussParse.docs.irc_result &mdash; GaussParse 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=fc837d61"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            GaussParse
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">GaussParse</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">GaussParse</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">GaussParse.docs.irc_result</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for GaussParse.docs.irc_result</h1><div class="highlight"><pre>
+<span></span><span class="c1"># import packages/modules</span>
+<span class="c1"># external</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">ticker</span>
+<span class="c1"># internal</span>
+<span class="kn">from</span> <span class="nn">GaussParse.utils</span> <span class="kn">import</span> <span class="n">CheckFileFormat</span><span class="p">,</span> <span class="n">checkFile</span><span class="p">,</span> <span class="n">checkDir</span><span class="p">,</span> <span class="n">ListFiles</span><span class="p">,</span> <span class="n">generateFileName</span><span class="p">,</span> <span class="n">EnergyUnit</span>
+
+
+<div class="viewcode-block" id="IRCResult">
+<a class="viewcode-back" href="../../../GaussParse.docs.html#GaussParse.docs.irc_result.IRCResult">[docs]</a>
+<span class="k">class</span> <span class="nc">IRCResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Parse IRC results</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># plot options</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;fig_size&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+        <span class="s2">&quot;img_name&quot;</span><span class="p">:</span> <span class="s1">&#39;img&#39;</span><span class="p">,</span>
+        <span class="s2">&quot;target_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;y_label&quot;</span><span class="p">:</span> <span class="s2">&quot;Total Energy&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;x_label&quot;</span><span class="p">:</span> <span class="s2">&quot;Intrinsic Reaction Coordinate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;xlim&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+        <span class="s2">&quot;ylim&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+        <span class="s2">&quot;label_margin&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">&quot;y_major_locator&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="s2">&quot;plt_style&quot;</span><span class="p">:</span> <span class="s1">&#39;bmh&#39;</span><span class="p">,</span>
+        <span class="s2">&quot;line_color&quot;</span><span class="p">:</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;y_unit&quot;</span><span class="p">:</span> <span class="s2">&quot;Hartree&quot;</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">src</span> <span class="o">=</span> <span class="n">src</span>
+
+<div class="viewcode-block" id="IRCResult.toImage">
+<a class="viewcode-back" href="../../../GaussParse.docs.html#GaussParse.docs.irc_result.IRCResult.toImage">[docs]</a>
+    <span class="k">def</span> <span class="nf">toImage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">manual_options</span><span class="o">=</span><span class="p">{}):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Transform the IRC result to image</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># check file/folder</span>
+            <span class="k">if</span> <span class="n">checkFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">src</span><span class="p">):</span>
+                <span class="c1"># read file</span>
+                <span class="n">fileDir</span><span class="p">,</span> <span class="n">fileName</span><span class="p">,</span> <span class="n">fileExtension</span> <span class="o">=</span> <span class="n">CheckFileFormat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">src</span><span class="p">)</span>
+                <span class="c1"># check extension</span>
+                <span class="k">if</span> <span class="n">fileExtension</span> <span class="o">==</span> <span class="s1">&#39;.log&#39;</span><span class="p">:</span>
+                    <span class="n">file_dir</span> <span class="o">=</span> <span class="n">fileDir</span>
+                    <span class="n">file</span> <span class="o">=</span> <span class="n">fileName</span><span class="o">+</span><span class="n">fileExtension</span>
+                    <span class="n">file_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">file</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">checkDir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">src</span><span class="p">):</span>
+                <span class="c1"># read folder</span>
+                <span class="n">file_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">src</span>
+                <span class="n">file_list</span> <span class="o">=</span> <span class="n">ListFiles</span><span class="p">(</span><span class="n">file_dir</span><span class="p">,</span> <span class="n">fileExtension</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+
+            <span class="c1"># update options</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">manual_options</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">update_plot_options</span><span class="p">(</span><span class="n">manual_options</span><span class="p">)</span>
+
+            <span class="c1"># analyze each file</span>
+            <span class="n">analyzed_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AnalyzeIRC</span><span class="p">(</span><span class="n">file_dir</span><span class="p">,</span> <span class="n">file_list</span><span class="p">)</span>
+
+            <span class="c1"># plot data and then save</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">save_data_to_image</span><span class="p">(</span><span class="n">analyzed_files</span><span class="p">,</span> <span class="n">image_file_dir</span><span class="o">=</span><span class="n">file_dir</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="IRCResult.update_plot_options">
+<a class="viewcode-back" href="../../../GaussParse.docs.html#GaussParse.docs.irc_result.IRCResult.update_plot_options">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_plot_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        update plot options</span>
+
+<span class="sd">        args:</span>
+<span class="sd">            data {dict}: plot options</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;key </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> not found!&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="IRCResult.ReadIRC">
+<a class="viewcode-back" href="../../../GaussParse.docs.html#GaussParse.docs.irc_result.IRCResult.ReadIRC">[docs]</a>
+    <span class="k">def</span> <span class="nf">ReadIRC</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        read the content of IRC log file</span>
+
+<span class="sd">        args:</span>
+<span class="sd">            filePath {str}: full name of file with directory and format</span>
+
+<span class="sd">        return:</span>
+<span class="sd">            res {tuple}</span>
+<span class="sd">                fileName {str}: file name</span>
+<span class="sd">                item_loc {dict}: irc data</span>
+<span class="sd">                column_names {List}: list of column names</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># file info</span>
+            <span class="n">fileDir</span><span class="p">,</span> <span class="n">fileName</span><span class="p">,</span> <span class="n">fileExtension</span> <span class="o">=</span> <span class="n">CheckFileFormat</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
+
+            <span class="c1"># dict</span>
+            <span class="n">item_loc</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">column_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Energy&#39;</span><span class="p">,</span> <span class="s1">&#39;RxCoord&#39;</span><span class="p">]</span>
+
+            <span class="c1"># index</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span>
+
+            <span class="c1"># file open</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="c1"># content</span>
+                <span class="n">fContent</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+                <span class="c1"># find</span>
+                <span class="n">str_sub_1</span> <span class="o">=</span> <span class="s2">&quot;Energies reported relative to the TS energy of &quot;</span>
+                <span class="n">i_sub_1</span> <span class="o">=</span> <span class="n">fContent</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="n">str_sub_1</span><span class="p">)</span>
+                <span class="n">str_1</span> <span class="o">=</span> <span class="n">fContent</span><span class="p">[</span><span class="n">i_sub_1</span><span class="p">:]</span>
+
+                <span class="c1"># split str by lines</span>
+                <span class="n">str_sub_lines</span> <span class="o">=</span> <span class="n">str_1</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+
+                <span class="c1"># energy</span>
+                <span class="n">E_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;([-+]?\d*\.\d+|\d+)&quot;</span>
+                <span class="n">E_match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">E_pattern</span><span class="p">,</span> <span class="n">str_sub_lines</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">E_match</span><span class="p">:</span>
+                    <span class="n">E</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">E_match</span><span class="o">.</span><span class="n">group</span><span class="p">())</span>
+                    <span class="c1"># print(E)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                        <span class="s2">&quot;not found: Energies reported relative to the TS energy&quot;</span><span class="p">)</span>
+
+                <span class="c1"># separator</span>
+                <span class="n">sep_1</span> <span class="o">=</span> <span class="n">str_sub_lines</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="c1"># table header</span>
+                <span class="n">table_header</span> <span class="o">=</span> <span class="n">str_sub_lines</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+                <span class="c1"># find the second separator</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">k_set</span> <span class="o">=</span> <span class="mi">4</span>
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">str_sub_lines</span><span class="p">:</span>
+                    <span class="c1"># set regex</span>
+                    <span class="n">_line</span> <span class="o">=</span> <span class="n">item</span>
+
+                    <span class="c1"># find</span>
+                    <span class="n">_res</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+                        <span class="sa">r</span><span class="s2">&quot;(\d+)\s+([-+]?\d*\.\d+|\d+)\s+([-+]?\d*\.\d+|\d+)&quot;</span><span class="p">,</span> <span class="n">_line</span><span class="p">)</span>
+                    <span class="c1"># check</span>
+                    <span class="k">if</span> <span class="n">_res</span><span class="p">:</span>
+                        <span class="n">_X</span> <span class="o">=</span> <span class="n">_res</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                        <span class="n">_Energy</span> <span class="o">=</span> <span class="n">_res</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+                        <span class="n">_RxCoord</span> <span class="o">=</span> <span class="n">_res</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+                        <span class="c1"># store</span>
+                        <span class="n">_ele</span> <span class="o">=</span> <span class="p">{</span>
+                            <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">_X</span><span class="p">),</span>
+                            <span class="s1">&#39;Energy&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">_Energy</span><span class="p">),</span>
+                            <span class="s1">&#39;RxCoord&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">_RxCoord</span><span class="p">),</span>
+                            <span class="s1">&#39;EnergyTotal&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">_Energy</span><span class="p">)</span> <span class="o">+</span> <span class="n">E</span><span class="p">,</span>
+                        <span class="p">}</span>
+
+                        <span class="n">item_loc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_ele</span><span class="p">)</span>
+
+                    <span class="c1"># check the end of data zone</span>
+                    <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="n">k_set</span> <span class="ow">and</span> <span class="n">item</span> <span class="o">==</span> <span class="n">sep_1</span><span class="p">:</span>
+                        <span class="n">sep_2</span> <span class="o">=</span> <span class="n">item</span>
+                        <span class="k">break</span>
+
+                    <span class="c1"># update</span>
+                    <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">return</span> <span class="n">fileName</span><span class="p">,</span> <span class="n">item_loc</span><span class="p">,</span> <span class="n">column_names</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="IRCResult.AnalyzeIRC">
+<a class="viewcode-back" href="../../../GaussParse.docs.html#GaussParse.docs.irc_result.IRCResult.AnalyzeIRC">[docs]</a>
+    <span class="k">def</span> <span class="nf">AnalyzeIRC</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targetPath</span><span class="p">,</span> <span class="n">fileList</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Analyze every file in the file list</span>
+
+<span class="sd">        args:</span>
+<span class="sd">            targetPath {str}: target folder</span>
+<span class="sd">            fileList {List[str]}: list of selected files</span>
+
+<span class="sd">        return:</span>
+<span class="sd">            res: dict</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># check</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fileList</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># res</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">fileList</span><span class="p">:</span>
+                    <span class="c1"># file path</span>
+                    <span class="n">_file_full_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">targetPath</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
+                    <span class="c1"># read file</span>
+                    <span class="n">_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ReadIRC</span><span class="p">(</span><span class="n">_file_full_path</span><span class="p">)</span>
+                    <span class="c1"># save</span>
+                    <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_res</span><span class="p">)</span>
+
+                <span class="c1"># return</span>
+                <span class="k">return</span> <span class="n">res</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;file list is empty!&quot;</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="IRCResult.save_data_to_image">
+<a class="viewcode-back" href="../../../GaussParse.docs.html#GaussParse.docs.irc_result.IRCResult.save_data_to_image">[docs]</a>
+    <span class="k">def</span> <span class="nf">save_data_to_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">image_file_dir</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Save IRC result output.log to image file format</span>
+
+<span class="sd">        args:</span>
+<span class="sd">            d {List[dict]}: input data</span>
+<span class="sd">            image_file_dir {str}: file directory used for saving all images</span>
+
+<span class="sd">        return:</span>
+<span class="sd">            status {bool}: True for successful action </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># index</span>
+        <span class="n">data_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+
+        <span class="c1"># unit class</span>
+        <span class="n">EnergyUnitClass</span> <span class="o">=</span> <span class="n">EnergyUnit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;y_unit&#39;</span><span class="p">])</span>
+
+        <span class="c1"># add each df to the excel sheet</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+            <span class="c1"># extract data</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">file_data</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">file_column_name</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+            <span class="c1"># img file name</span>
+            <span class="n">img_file_name</span> <span class="o">=</span> <span class="n">file_name</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+            <span class="c1">#  img file path</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">image_file_dir</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">image_file_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+
+            <span class="c1"># dataframe</span>
+            <span class="n">_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">file_data</span><span class="p">)</span>
+
+            <span class="c1"># x values</span>
+            <span class="n">_X</span> <span class="o">=</span> <span class="n">_df</span><span class="p">[</span><span class="s1">&#39;RxCoord&#39;</span><span class="p">]</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="n">_X</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+            <span class="c1"># y values</span>
+            <span class="n">_Y</span> <span class="o">=</span> <span class="n">_df</span><span class="p">[</span><span class="s1">&#39;EnergyTotal&#39;</span><span class="p">]</span>
+            <span class="n">Y</span> <span class="o">=</span> <span class="n">_Y</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+            <span class="c1"># check unit</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;y_unit&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;kcal/mol&quot;</span><span class="p">:</span>
+                <span class="n">Y</span> <span class="o">=</span> <span class="n">EnergyUnitClass</span><span class="o">.</span><span class="n">hartree_to_kcal_per_mol</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;y_unit&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;kJ/mol&quot;</span><span class="p">:</span>
+                <span class="n">Y</span> <span class="o">=</span> <span class="n">EnergyUnitClass</span><span class="o">.</span><span class="n">hartree_to_kJ_per_mol</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;y_unit&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;eV&quot;</span><span class="p">:</span>
+                <span class="n">Y</span> <span class="o">=</span> <span class="n">EnergyUnitClass</span><span class="o">.</span><span class="n">hartree_to_eV</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># hartree</span>
+                <span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span>
+
+                <span class="c1"># save image</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">save_plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">image_file_dir</span><span class="p">,</span> <span class="n">img_file_name</span><span class="p">)</span>
+
+            <span class="c1"># empty dataframe</span>
+            <span class="n">_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+        <span class="c1"># return</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="IRCResult.save_plot">
+<a class="viewcode-back" href="../../../GaussParse.docs.html#GaussParse.docs.irc_result.IRCResult.save_plot">[docs]</a>
+    <span class="k">def</span> <span class="nf">save_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">target_dir</span><span class="p">,</span> <span class="n">img_file_name</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        plot irc profile</span>
+
+<span class="sd">        args:</span>
+<span class="sd">            X {list}: x values</span>
+<span class="sd">            Y {list}: y values</span>
+<span class="sd">            title {str}: plot title</span>
+<span class="sd">            target_dir {str}: target directory</span>
+<span class="sd">            img_file_name {str}: image file name</span>
+<span class="sd">            display {bool}: display plot (default: False)</span>
+<span class="sd">            format {str}: image format (default: png, others: svg)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># Add a title to the plot</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+
+        <span class="c1"># styles</span>
+        <span class="n">plt_style</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;plt_style&#39;</span><span class="p">]</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="n">plt_style</span><span class="p">)</span>
+
+        <span class="c1"># axe labels</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;x_label&#39;</span><span class="p">],</span>
+                   <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+        <span class="c1"># set y label</span>
+        <span class="n">_y_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;y_label&#39;</span><span class="p">]</span> <span class="o">+</span> \
+            <span class="s2">&quot; (&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;y_unit&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">_y_label</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+        <span class="c1"># grid</span>
+        <span class="c1"># plt.grid(which=&#39;both&#39;, color=&#39;gray&#39;, linestyle=&#39;--&#39;, linewidth=0.5)</span>
+        <span class="c1"># Enable minor ticks</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">minorticks_on</span><span class="p">()</span>
+        <span class="c1"># Customize major grid lines</span>
+        <span class="c1"># plt.grid(which=&#39;major&#39;, color=&#39;grey&#39;, linestyle=&#39;-&#39;, linewidth=0.75)</span>
+        <span class="c1"># Customize minor grid lines</span>
+        <span class="c1"># plt.grid(which=&#39;minor&#39;, color=&#39;gray&#39;, linestyle=&#39;:&#39;, linewidth=0.5)</span>
+
+        <span class="c1"># Customize major grid lines</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span>
+                 <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+        <span class="c1"># Customize minor grid lines</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s1">&#39;minor&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span>
+                 <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+
+        <span class="c1"># line color</span>
+        <span class="n">line_color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;line_color&#39;</span><span class="p">]</span>
+
+        <span class="c1"># plot data</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">line_color</span><span class="p">)</span>
+
+        <span class="c1"># img file</span>
+        <span class="n">img_file</span> <span class="o">=</span> <span class="p">(</span><span class="n">img_file_name</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nb">format</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="c1"># img file path</span>
+        <span class="n">img_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">target_dir</span><span class="p">,</span> <span class="n">img_file</span><span class="p">)</span>
+
+        <span class="c1"># save a figure</span>
+        <span class="c1"># check</span>
+        <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s1">&#39;svg&#39;</span><span class="p">:</span>
+            <span class="c1"># svg</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">img_path</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span>
+                        <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s1">&#39;png&#39;</span><span class="p">:</span>
+            <span class="c1"># png</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">img_path</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span>
+                        <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Customize major tick marks for the current axes</span>
+        <span class="c1"># plt.gca().tick_params(axis=&#39;both&#39;, which=&#39;major&#39;, length=5, width=1, colors=&#39;black&#39;, direction=&#39;in&#39;, labelsize=10)</span>
+        <span class="c1"># Customize minor tick marks for the current axes</span>
+        <span class="c1"># plt.gca().tick_params(axis=&#39;both&#39;, which=&#39;minor&#39;, length=5, width=1, colors=&#39;gray&#39;, direction=&#39;in&#39;, labelsize=10)</span>
+        <span class="c1"># Set the y-axis limits to display the actual values</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span>
+            <span class="n">ticker</span><span class="o">.</span><span class="n">StrMethodFormatter</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{x:,.3f}</span><span class="s1">&#39;</span><span class="p">))</span>
+        <span class="c1"># Customize the appearance of the spines</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;bottom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Set the minimum and maximum values for the x-axis</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Adjust the values as needed</span>
+
+        <span class="c1"># check</span>
+        <span class="k">if</span> <span class="n">display</span><span class="p">:</span>
+            <span class="c1"># show</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="c1"># close</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="IRCResult.change_unit">
+<a class="viewcode-back" href="../../../GaussParse.docs.html#GaussParse.docs.irc_result.IRCResult.change_unit">[docs]</a>
+    <span class="k">def</span> <span class="nf">change_unit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        change unit from Hartree to kcal/mol or kJ/mol</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">pass</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Sina Gilassi.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

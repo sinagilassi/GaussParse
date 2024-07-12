@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GaussParse.utils package &mdash; GaussParse 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=fc837d61"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="GaussParse.tests package" href="GaussParse.tests.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            GaussParse
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">GaussParse</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="GaussParse.html">GaussParse package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="GaussParse.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="GaussParse.config.html">GaussParse.config package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="GaussParse.docs.html">GaussParse.docs package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="GaussParse.handlers.html">GaussParse.handlers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="GaussParse.tests.html">GaussParse.tests package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">GaussParse.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="GaussParse.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="GaussParse.html#module-GaussParse.app">GaussParse.app module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="GaussParse.html#module-GaussParse">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">GaussParse</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">GaussParse</a></li>
+          <li class="breadcrumb-item"><a href="GaussParse.html">GaussParse package</a></li>
+      <li class="breadcrumb-item active">GaussParse.utils package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/GaussParse.utils.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="gaussparse-utils-package">
+<h1>GaussParse.utils package<a class="headerlink" href="#gaussparse-utils-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-GaussParse.utils.appmanager">
+<span id="gaussparse-utils-appmanager-module"></span><h2>GaussParse.utils.appmanager module<a class="headerlink" href="#module-GaussParse.utils.appmanager" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="GaussParse.utils.appmanager.CheckFileFormat">
+<span class="sig-prename descclassname"><span class="pre">GaussParse.utils.appmanager.</span></span><span class="sig-name descname"><span class="pre">CheckFileFormat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GaussParse/utils/appmanager.html#CheckFileFormat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GaussParse.utils.appmanager.CheckFileFormat" title="Link to this definition"></a></dt>
+<dd><p>check file format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filePath</strong> – file name dir</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>file directory, file name, file format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="GaussParse.utils.appmanager.ListFiles">
+<span class="sig-prename descclassname"><span class="pre">GaussParse.utils.appmanager.</span></span><span class="sig-name descname"><span class="pre">ListFiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targetPath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fileExtension</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'txt'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GaussParse/utils/appmanager.html#ListFiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GaussParse.utils.appmanager.ListFiles" title="Link to this definition"></a></dt>
+<dd><p>list files in a target file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>targetPath</strong> – target path</p></li>
+<li><p><strong>fileExtension</strong> – file extension, default is txt, can be changed log</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a list of files in the target path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="GaussParse.utils.appmanager.checkDir">
+<span class="sig-prename descclassname"><span class="pre">GaussParse.utils.appmanager.</span></span><span class="sig-name descname"><span class="pre">checkDir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GaussParse/utils/appmanager.html#checkDir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GaussParse.utils.appmanager.checkDir" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="GaussParse.utils.appmanager.checkFile">
+<span class="sig-prename descclassname"><span class="pre">GaussParse.utils.appmanager.</span></span><span class="sig-name descname"><span class="pre">checkFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GaussParse/utils/appmanager.html#checkFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GaussParse.utils.appmanager.checkFile" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="GaussParse.utils.appmanager.checkPath">
+<span class="sig-prename descclassname"><span class="pre">GaussParse.utils.appmanager.</span></span><span class="sig-name descname"><span class="pre">checkPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GaussParse/utils/appmanager.html#checkPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GaussParse.utils.appmanager.checkPath" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="GaussParse.utils.appmanager.generateFileName">
+<span class="sig-prename descclassname"><span class="pre">GaussParse.utils.appmanager.</span></span><span class="sig-name descname"><span class="pre">generateFileName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GaussParse/utils/appmanager.html#generateFileName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GaussParse.utils.appmanager.generateFileName" title="Link to this definition"></a></dt>
+<dd><p>generate a file name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> – name of the file (without extension)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a file name</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-GaussParse.utils.converter">
+<span id="gaussparse-utils-converter-module"></span><h2>GaussParse.utils.converter module<a class="headerlink" href="#module-GaussParse.utils.converter" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="GaussParse.utils.converter.EnergyUnit">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GaussParse.utils.converter.</span></span><span class="sig-name descname"><span class="pre">EnergyUnit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GaussParse/utils/converter.html#EnergyUnit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GaussParse.utils.converter.EnergyUnit" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>energy unit converter</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="GaussParse.utils.converter.EnergyUnit.eV_to_hartree">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">eV_to_hartree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GaussParse/utils/converter.html#EnergyUnit.eV_to_hartree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GaussParse.utils.converter.EnergyUnit.eV_to_hartree" title="Link to this definition"></a></dt>
+<dd><p>convert eV to hartree</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GaussParse.utils.converter.EnergyUnit.hartree_to_eV">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hartree_to_eV</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GaussParse/utils/converter.html#EnergyUnit.hartree_to_eV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GaussParse.utils.converter.EnergyUnit.hartree_to_eV" title="Link to this definition"></a></dt>
+<dd><p>convert hartree to eV</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GaussParse.utils.converter.EnergyUnit.hartree_to_inverse_cm">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hartree_to_inverse_cm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GaussParse/utils/converter.html#EnergyUnit.hartree_to_inverse_cm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GaussParse.utils.converter.EnergyUnit.hartree_to_inverse_cm" title="Link to this definition"></a></dt>
+<dd><p>convert hartree to inverse cm</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GaussParse.utils.converter.EnergyUnit.hartree_to_kJ_per_mol">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hartree_to_kJ_per_mol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GaussParse/utils/converter.html#EnergyUnit.hartree_to_kJ_per_mol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GaussParse.utils.converter.EnergyUnit.hartree_to_kJ_per_mol" title="Link to this definition"></a></dt>
+<dd><p>convert hartree to kJ/mol</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GaussParse.utils.converter.EnergyUnit.hartree_to_kcal_per_mol">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hartree_to_kcal_per_mol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GaussParse/utils/converter.html#EnergyUnit.hartree_to_kcal_per_mol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GaussParse.utils.converter.EnergyUnit.hartree_to_kcal_per_mol" title="Link to this definition"></a></dt>
+<dd><p>convert hartree to kcal/mol</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GaussParse.utils.converter.EnergyUnit.inverse_cm_to_hartree">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">inverse_cm_to_hartree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GaussParse/utils/converter.html#EnergyUnit.inverse_cm_to_hartree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GaussParse.utils.converter.EnergyUnit.inverse_cm_to_hartree" title="Link to this definition"></a></dt>
+<dd><p>convert inverse cm to hartree</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GaussParse.utils.converter.EnergyUnit.kJ_per_mol_to_hartree">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">kJ_per_mol_to_hartree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GaussParse/utils/converter.html#EnergyUnit.kJ_per_mol_to_hartree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GaussParse.utils.converter.EnergyUnit.kJ_per_mol_to_hartree" title="Link to this definition"></a></dt>
+<dd><p>convert kJ/mol to hartree</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GaussParse.utils.converter.EnergyUnit.kcal_per_mol_to_hartree">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">kcal_per_mol_to_hartree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GaussParse/utils/converter.html#EnergyUnit.kcal_per_mol_to_hartree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GaussParse.utils.converter.EnergyUnit.kcal_per_mol_to_hartree" title="Link to this definition"></a></dt>
+<dd><p>convert kcal/mol to hartree</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-GaussParse.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-GaussParse.utils" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="GaussParse.tests.html" class="btn btn-neutral float-left" title="GaussParse.tests package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Sina Gilassi.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
