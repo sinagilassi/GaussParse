@@ -131,6 +131,11 @@ Energy profile:
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
+## Citation
+
+If you use this Python package in your research, please cite it as follows:
+
+Sina Gilassi, (2024). GaussParse: A Python package for parsing Gaussian software output. GitHub repository. https://github.com/sinagilassi/GaussParse
 
 ## FAQ
 
