@@ -8,12 +8,10 @@ import os
 import sys
 import pathlib
 
-sys.path.insert(0, os.path.abspath('../../../GaussParse/'))
-# add path
-# path = pathlib.Path(__file__).resolve() / '..' / '..' / '..' / 'GaussParse'
+# worked
+# sys.path.insert(0, os.path.abspath('../../../GaussParse/'))
+sys.path.insert(0, os.path.abspath('../../GaussParse/'))
 
-# sys.path.insert(0, os.path.abspath('..\GaussParse'))
-# sys.path.insert(0, os.path.abspath(path))
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
