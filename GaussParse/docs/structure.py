@@ -372,14 +372,6 @@ Number      Number      Symbol                  X           Y           Z
         ----------
         atom_list : list
             List of tuples containing the atom symbol and its coordinates (x,y,z).
-            Example input for methane (CH4):
-            atom_list = [
-                ("C", 0.000000, 0.000000, 0.000000),
-                ("H", 0.000000, 0.000000, 1.089000),
-                ("H", 1.026719, 0.000000, -0.363000),
-                ("H", -0.513360, -0.889165, -0.363000),
-                ("H", -0.513360, 0.889165, -0.363000)
-            ]
         file_name : str
             The name of the output XYZ file.
 
@@ -387,6 +379,19 @@ Number      Number      Symbol                  X           Y           Z
         -------
         str
             The name of the generated XYZ file.
+
+
+        Example
+        -------
+        >>> atom_list = [
+        ...     ("C", 0.000000, 0.000000, 0.000000),
+        ...     ("H", 0.000000, 0.000000, 1.089000),
+        ...     ("H", 1.026719, 0.000000, -0.363000),
+        ...     ("H", -0.513360, -0.889165, -0.363000),
+        ...     ("H", -0.513360, 0.889165, -0.363000)
+        ... ]
+        >>> file_name = "molecule"
+        >>> generate_xyz_file(atom_list, file_name)
 
         """
         # number of atoms

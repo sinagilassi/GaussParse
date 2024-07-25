@@ -4,6 +4,8 @@ import os
 # internal
 from GaussParse.docs import SummaryResult, Structure, Manager, PlotResult, IRCResult
 from GaussParse.config import __version__
+# local
+# from GaussParse.utils import converter
 
 
 def main():
@@ -57,15 +59,15 @@ def collect_files_from(file_path, file_type="Excel", sheet_name='Sheet1', ):
 
 def result_summary_to_excel(src: str):
     """
-    Convert Gaussian results summary text file to an Excel file.
-    This function takes a file or folder path containing Gaussian results summary text files 
+    Convert Gaussian results summary text file to an Excel file,\
+    This function takes a file or folder path containing Gaussian results summary text files \
     and converts them into an Excel file.
 
     Parameters
     ----------
     src : str
-        Path to the file or folder containing the summary text files.
-        If a folder is provided, all files in the folder will be converted.
+        Path to the file or folder containing the summary text files.\
+        If a folder is provided, all files in the folder will be converted.\
         If a file is provided, only that file will be converted.
 
     Returns

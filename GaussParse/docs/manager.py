@@ -63,10 +63,12 @@ class Manager():
 
         Examples
         --------
-        excel file contents:
-            No | Name | Src
-            ----------------------------
-            1  | file1 | ../file1.txt
+        >>> 
+        ...excel file contents:
+        ...No | Name | Src
+        ...----------------------------
+        ...1  | file1 | ../file1.txt
+        ...2  | file2 | ../file2.txt
         '''
         try:
             # load excel file
