@@ -12,33 +12,9 @@ Key Features:
 - Publication-Ready Data: Extract molecular orientation data into a Word file formatted for publication as supplementary information.
 - GaussParse simplifies the process of post-processing Gaussian output, making it an invaluable tool for computational chemists and researchers working in molecular dynamics, quantum chemistry, and related fields.
 
-Subpackages
------------
-
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
+   :caption: Contents:
 
-   GaussParse.config
-   GaussParse.docs
-   GaussParse.handlers
-   GaussParse.tests
-   GaussParse.utils
-
-Submodules
-----------
-
-GaussParse.app module
----------------------
-
-.. automodule:: GaussParse.app
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: GaussParse
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   modules
+   GaussParse

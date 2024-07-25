@@ -10,10 +10,7 @@ import sys
 # worked
 # sys.path.insert(0, os.path.abspath('../../../GaussParse/'))
 # sys.path.insert(0, os.path.abspath('../../'))
-# sys.path.insert(0, os.path.abspath('../../GaussParse/'))
-
-# sys.path.append('../../../GaussParse/')
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('../../GaussParse'))
 
 
 # -- Project information -----------------------------------------------------
