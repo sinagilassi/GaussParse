@@ -8,8 +8,9 @@ import os
 import sys
 
 # worked
-# sys.path.insert(0, os.path.abspath('../../../GaussParse/'))
-sys.path.insert(0, os.path.abspath('../..'))
+sys.path.insert(0, os.path.abspath('../../../GaussParse/'))
+# sys.path.insert(0, os.path.abspath('../..'))
+# sys.path.insert(0, os.path.abspath('../../GaussParse/'))
 
 
 # -- Project information -----------------------------------------------------
@@ -32,6 +33,8 @@ extensions = ['sphinx.ext.todo', 'sphinx.ext.viewcode',
 templates_path = ['_templates']
 exclude_patterns = []
 
+# index
+master_doc = 'GaussParse'
 # exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # -- Options for HTML output -------------------------------------------------
