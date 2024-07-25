@@ -12,7 +12,7 @@ import pathlib
 # sys.path.insert(0, os.path.abspath('./../../GaussParse/'))
 # sys.path.insert(0, os.path.abspath('../../../../GaussParse/'))
 
-path = pathlib.Path(__file__).resolve() / '..' / '..' / '..' / 'GaussParse'
+path = pathlib.Path(__file__).resolve() / '..' / '..' / 'GaussParse'
 
 # sys.path.insert(0, os.path.abspath('..\src'))
 sys.path.insert(0, os.path.abspath(path))
