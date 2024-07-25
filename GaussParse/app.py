@@ -271,5 +271,5 @@ def plot_irc_profile(file_path: str, options: dict = {}):
         print(e)
 
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
