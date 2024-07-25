@@ -34,7 +34,7 @@ templates_path = ['_templates']
 exclude_patterns = []
 
 # index
-master_doc = 'GaussParse'
+# master_doc = 'GaussParse'
 # exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # -- Options for HTML output -------------------------------------------------
