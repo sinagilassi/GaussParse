@@ -35,6 +35,16 @@ class IRCResult:
     def toImage(self, manual_options={}):
         '''
         Transform the IRC result to image
+
+        Parameters
+        ----------
+        manual_options : dict
+            plot options
+
+        Returns
+        -------
+        res : bool
+            display plot and save it in file directory
         '''
         try:
             # check file/folder
@@ -68,10 +78,16 @@ class IRCResult:
 
     def update_plot_options(self, data):
         '''
-        update plot options
+        Update plot options
 
-        args:
-            data {dict}: plot options
+        Parameters
+        ----------
+        data : dict
+            plot options
+
+        Returns
+        -------
+        None
         '''
         try:
             for key, value in data.items():
@@ -84,16 +100,23 @@ class IRCResult:
 
     def ReadIRC(self, filePath):
         '''
-        read the content of IRC log file
+        Read the content of IRC log file
 
-        args:
-            filePath {str}: full name of file with directory and format
+        Parameters
+        ----------
+        filePath : str
+            full name of file with directory and format
 
-        return:
-            res {tuple}
-                fileName {str}: file name
-                item_loc {dict}: irc data
-                column_names {List}: list of column names
+        Returns
+        -------
+        res : tuple
+            fileName : str
+                file name
+            item_loc : dict
+                irc data
+            column_names : List
+                list of column names
+
         '''
         try:
             # file info
@@ -174,12 +197,18 @@ class IRCResult:
         '''
         Analyze every file in the file list
 
-        args:
-            targetPath {str}: target folder
-            fileList {List[str]}: list of selected files
+        Parameters
+        ----------
+        targetPath : str
+            full name of file with directory and format
+        fileList : List
+            list of selected files
 
-        return:
-            res: dict
+        Returns
+        -------
+        res : List
+            list of fileNames 
+
         '''
         try:
             # check
@@ -206,12 +235,17 @@ class IRCResult:
         '''
         Save IRC result output.log to image file format
 
-        args:
-            d {List[dict]}: input data
-            image_file_dir {str}: file directory used for saving all images
+        Parameters
+        ----------
+        d : List[dict]
+            input data
+        image_file_dir : str
+            file directory used for saving all images
 
-        return:
-            status {bool}: True for successful action 
+        Returns
+        -------
+        status : bool
+            True for successful action.
         '''
         # index
         data_len = len(d)
@@ -266,16 +300,30 @@ class IRCResult:
 
     def save_plot(self, X, Y, title, target_dir, img_file_name, display=False, format="png"):
         '''
-        plot irc profile
+        Plot irc profile
 
-        args:
-            X {list}: x values
-            Y {list}: y values
-            title {str}: plot title
-            target_dir {str}: target directory
-            img_file_name {str}: image file name
-            display {bool}: display plot (default: False)
-            format {str}: image format (default: png, others: svg)
+        Parameters
+        ----------
+        X : list
+            x values
+        Y : list
+            y values
+        title : str
+            plot title
+        target_dir : str
+            target directory
+        img_file_name : str
+            image file name
+        display : bool
+            display plot (default: False)
+        format : str
+            image format (default: png, others: svg)
+
+        Returns
+        -------
+        status : bool
+            True for successful action.
+
         '''
         # Add a title to the plot
         plt.title(title, fontweight='bold', color='black', fontsize=16)
@@ -354,8 +402,21 @@ class IRCResult:
         # close
         plt.close()
 
+        # res
+        return True
+
     def change_unit(self, data):
         '''
-        change unit from Hartree to kcal/mol or kJ/mol
+        Change unit from Hartree to kcal/mol or kJ/mol
+
+        Parameters
+        ----------
+        data : list
+            data
+
+        Returns
+        -------
+        data : list
+            data
         '''
-        pass
+        return data

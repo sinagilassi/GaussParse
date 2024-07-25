@@ -20,7 +20,7 @@ class Manager():
         self.file_extension = ''
         self.file_name = ''
 
-    def collect_files(self):
+    def collect_files(self) -> bool:
         '''
         Collect based on file type
         '''
@@ -38,6 +38,8 @@ class Manager():
                         fileDir, fileName)
                     # collect
                     self.collect_files_from_excel()
+                    # res
+                    return True
                 else:
                     raise Exception('file extension is not valid.')
             else:
@@ -45,18 +47,26 @@ class Manager():
         except Exception as e:
             print(e)
 
-    def collect_files_from_excel(self):
+    def collect_files_from_excel(self) -> bool:
         '''
-        Collect gaussian files (*.txt/*.log) saved in an excel file as:
+        Collect gaussian files (txt/log) saved in an excel file as:
 
-        args:
-            sheet_name {str}: excel sheet name
+        Parameters
+        ----------
+        sheet_name : str
+            excel sheet name
 
-        Example:
-            excel file contents:
-                No | Name | Src
-                ----------------------------
-                1  | file1 | ../file1.txt
+        Returns
+        -------
+        res : bool
+            True if the conversion was successful, copy all files listed in the source file to a folder
+
+        Examples
+        --------
+        excel file contents:
+            No | Name | Src
+            ----------------------------
+            1  | file1 | ../file1.txt
         '''
         try:
             # load excel file
@@ -79,11 +89,16 @@ class Manager():
         '''
         Check the file exists in that directory
 
-        args:
-            df_list {list}: df list
+        Parameters
+        ----------
+        df_list : list
+            df list
 
-        return:
-            file_extension {str}: file extensions
+        Returns
+        -------
+        file_extension : List
+            file extensions
+
         '''
         try:
             # file extension
@@ -118,10 +133,17 @@ class Manager():
         '''
         Copy all files from the source folder to the destination folder 
 
-        args:
-            df_list {list}: df list
-            destination_folder_dir {str}: destination folder
-            file_extension {str}: file extension (default: txt)
+        Parameters
+        ----------
+        df_list : list
+            df list
+        destination_folder_dir : str
+            destination folder
+
+        Returns
+        -------
+        total_files_copied : int
+            total number of files copied
 
         '''
         # check destination folder
@@ -164,3 +186,6 @@ class Manager():
         # total number of files copied
         print(
             f"total number of files copied: {total_files_copied} of {len(df_list)}")
+
+        # res
+        return total_files_copied

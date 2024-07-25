@@ -22,8 +22,12 @@ class Structure():
         '''
         Transform to txt
 
-        args:
-            file_name {str}: file name (if it is empty, generate a name)
+        Parameters
+        ----------
+        file_name : str
+            file name (if it is empty, generate a name)
+
+
         '''
         try:
             # check file/folder
@@ -93,12 +97,18 @@ class Structure():
         '''
         read the content of log file
 
-        args:
-            filePath {str}: full name of file with directory and format
-            pt_dict {dict}: parodic table dict
+        Parameters
+        ----------
+        filePath : str
+            full name of file with directory and format
+        pt_dict : dict
+            parodic table dict
 
-        return:
-            res {dict}: dictionary data
+        Returns
+        -------
+        tuple
+            fileName, item_conv, item_loc, column_names
+
         '''
         try:
             # file info
@@ -192,12 +202,18 @@ class Structure():
         '''
         analyze each file
 
-        args:
-            targetPath {str}: target folder
-            fileList {list[str]}: list of selected files
+        Parameters
+        ----------
+        targetPath : str
+            full name of file with directory and format
+        fileList : list
+            list of selected files
 
-        output:
-            res {dict}: dictionary of input orientation data
+        Returns
+        -------
+        res : dict
+            dictionary of input orientation data
+
         '''
         try:
             # check
@@ -223,9 +239,18 @@ class Structure():
         '''
         save xyz coordination output.log to txt file such as Notepad
 
-        args:
-            d {list}: input data
-            file name {str}: file name, default: res.txt
+        Parameters
+        ----------
+        d : dict
+            dictionary of input orientation data
+        file_name : str
+            file name, default: res
+
+        Returns
+        -------
+        tuple
+            (True, text_file_path)
+
         '''
 
         # text file path
@@ -304,14 +329,20 @@ Number      Number      Symbol                  X           Y           Z
 
     def AnalyzeTxtFiles(self, targetPath, fileList):
         '''
-        analyze each file
+        Analyze each file
 
-        args:
-            targetPath {str}: target folder
-            fileList {list[str]}: list of selected files
+        Parameters
+        ----------
+        targetPath : str
+            full name of file with directory and format
+        fileList: list
+            list of selected files
 
-        output:
-            res {dict}: dictionary of input orientation data
+        Returns
+        -------
+        res : dict
+            dictionary of input orientation data
+
         '''
         try:
             # check
@@ -337,21 +368,26 @@ Number      Number      Symbol                  X           Y           Z
         """
         Generates an XYZ file from a list of atom positions with nicely formatted columns.
 
-        args:
-        atom_list {list of tuples}: Each tuple contains an element symbol and its x, y, z coordinates.
-        file_name {str}: The name of the output XYZ file.
+        Parameters
+        ----------
+        atom_list : list
+            List of tuples containing the atom symbol and its coordinates (x,y,z).
+            Example input for methane (CH4):
+            atom_list = [
+                ("C", 0.000000, 0.000000, 0.000000),
+                ("H", 0.000000, 0.000000, 1.089000),
+                ("H", 1.026719, 0.000000, -0.363000),
+                ("H", -0.513360, -0.889165, -0.363000),
+                ("H", -0.513360, 0.889165, -0.363000)
+            ]
+        file_name : str
+            The name of the output XYZ file.
 
-        return:
-        file name
+        Returns
+        -------
+        str
+            The name of the generated XYZ file.
 
-        Example input for methane (CH4):
-        atom_list = [
-            ("C", 0.000000, 0.000000, 0.000000),
-            ("H", 0.000000, 0.000000, 1.089000),
-            ("H", 1.026719, 0.000000, -0.363000),
-            ("H", -0.513360, -0.889165, -0.363000),
-            ("H", -0.513360, 0.889165, -0.363000)
-        ]
         """
         # number of atoms
         num_atoms = len(atom_list)
@@ -373,11 +409,15 @@ Number      Number      Symbol                  X           Y           Z
         '''
         read the content of txt file
 
-        args:
-            file_path {str}: full name of file with directory and format
+        Parameters
+        ----------
+        file_path : str
+            full name of file with directory and format
 
-        return:
-            res {dict}: dictionary data
+        Returns
+        -------
+        res : tuple
+            _file_name, item_conv, item_loc, column_names
         '''
         try:
             # file info
@@ -456,13 +496,19 @@ Number      Number      Symbol                  X           Y           Z
 
     def FindStructures(self, txt_file, display_res=False):
         '''
-        find structures saved in a text file (.txt)
+        Find structures saved in a text file (.txt)
 
-        args:
-            txt_file {str}: text file
+        Parameters
+        ----------
+        txt_file : str
+            full name of file with directory and format
+        display_res : bool
+            whether to display the result
 
-        return:
-            str list
+        Returns
+        -------
+        res : list
+            list of str matched
         '''
         pattern = re.compile(
             r'((\w+)?\n)?'

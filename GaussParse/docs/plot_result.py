@@ -37,6 +37,18 @@ class PlotResult():
     def init_plot(self, manual_options={}, save_img=True):
         '''
         Plot energy profile
+
+        Parameters
+        ----------
+        manual_options : dict
+            plot options
+        save_img : bool
+            save plot (default: True)
+
+        Returns
+        -------
+        bool
+            True
         '''
         try:
             # check file/folder
@@ -69,8 +81,15 @@ class PlotResult():
         '''
         update plot options
 
-        args:
-            data {dict}: plot options
+        Parameters
+        ----------
+        data : dict
+            plot options
+
+        Returns
+        -------
+        None
+
         '''
         for key, value in data.items():
             if key in self.options.keys():
@@ -82,11 +101,15 @@ class PlotResult():
         '''
         duplicate Y data
 
-        args:
-            Y {list[float]}: data list
+        Parameters
+        ----------
+        Y : list[float]
+            data list
 
-        return:
-            Y2 {list[float]}: duplicated Y list
+        Returns
+        -------
+        Y2 : list[float]
+            duplicated Y list
         '''
         Y2 = [item for item in Y for _ in range(2)]
         return Y2
@@ -95,11 +118,16 @@ class PlotResult():
         '''
         reset to initial Y data list
 
-        args:
-            Y {list[float]}: duplcated data list
+        Parameters
+        ----------
+        Y : list[float]
+            duplcated data list
 
-        return:
-            Y2 {list[float]}: initial Y list
+        Returns
+        -------
+        Y2 : list[float]
+            initial Y list
+
         '''
         Y2 = Y[0::2]
         return Y2
@@ -107,16 +135,22 @@ class PlotResult():
     def setX(self, X, span=10, line=3):
         '''
         change the inital X list as:
-            step 1: wider dataset
-            step 2: make a platform for each state
+        step 1: wider dataset
+        step 2: make a platform for each state
 
-        args:
-            X {list[int]}: data list
-            span {int}: data width
-            line {int}: label width
+        Parameters
+        ----------
+        X : list[int]
+            data list
+        span : int
+            data width (default 10)
+        line : int
+            label width (default 3)
 
-        return:
-            X3 {list[int]}: new X data
+        Returns
+        -------
+        X3 : list[int]
+            new X data
         '''
         # Step 1: Multiply each element by 10
         X2 = [item * int(span) for item in X]
@@ -132,16 +166,23 @@ class PlotResult():
     def resetX(self, X, span=10, line=3):
         '''
         change the inital X list as:
-            step 1: wider dataset
-            step 2: make a platform for each state
+        step 1: wider dataset
+        step 2: make a platform for each state
 
-        args:
-            X {list[int]}: data list
-            span {int}: data width
-            line {int}: label width
+        Parameters
+        ----------
+        X : list[int]
+            data list
+        span : int
+            data width (default 10)
+        line : int
+            label width (default 3)
 
-        return:
-            X3 {list[int]}: the initial X data
+        Returns
+        -------
+        X3 : list[int]
+            the initial X data
+
         '''
         # Step 1: divide each element by 10
         X2 = [item for item in X]
@@ -164,11 +205,15 @@ class PlotResult():
         column 9: Y_POSITION - label position
         column 10: Y_DISPLAY - display data
 
-        args:
-        excel_file {str}: excel file directory
+        Parameters
+        ----------
+        excel_file : str
+            excel file directory
 
-        return:
-        data for plotting
+        Returns
+        -------
+        data : dict
+            dict containing for plotting
         '''
         try:
             # check
@@ -256,16 +301,23 @@ class PlotResult():
 
     def setPosition(self, position, Xs, Ys, margin=2.5):
         '''
-        config text positio to show label
+        Config text position to show label
 
-        args:
-            position {str}: label position (top/bottom)
-            Xs {list[number]}: X values
-            Ys {list[number]}: Y values
-            margin {number}: move text vertically (default value: 2.5)
+        Parameters
+        ----------
+        position : str
+            label position (top/bottom)
+        Xs : list[number]
+            X values
+        Ys : list[number]
+            Y values
+        margin : number
+            move text vertically (default value: 2.5)
 
-        return:
-            x_mid, y_mid {list[number]}: new position
+        Returns
+        -------
+        x_mid, y_mid : list[number]
+            new position
         '''
         # set
         x_mid = 0.5 * (Xs[0] + Xs[1])
@@ -281,37 +333,46 @@ class PlotResult():
 
     def mPlot(self, data, save_img):
         '''
-        plot data series
+        Plot data series
 
-        args:
-            data: list of dict
-            save_img {bool}: set to save plot (default: True)
+        Plot options:
+        X {list}: X values
+        Y {list}: Y values
+        LABEL {list}: labels
+        LEGEND {list}: legend
+        GROUP {list}: group id
+        COLOR {list}: data series color
+        LABEL_POSITION {list}: set label position on each line (default: top)
+        LABEL_DISPLAY {list}: set label display (Yes/No)
+        Y_POSITION {list}: set label position on each line (default: top)
+        Y_DISPLAY {list}: set label display (Yes/No)
+        plot_type {str}: plot type, linear or gaussian
+        save_img {bool}: set to save plot (default: False)
+        img_name {str}: plot name (file name)
+        target_dir {str}: plot img to target dir
+        plot_sub {dict}: subplot details
+        row {number}: plot row
+        col {number}: plot column
+        y_label {str}: y label text
+        x_label {str}: x label text
+        plot_title {str}: plot title
+        xlim {list[number]}: x-axis range
+        ylim {list[number]}: y-axis range
+        figsize {list[number]}: fig size (default: [10,6])
+        y_major_locator {number}: set y-axis major locator
 
-            other options
-                X {list}: X values
-                Y {list}: Y values
-                LABEL {list}: labels
-                LEGEND {list}: legend
-                GROUP {list}: group id
-                COLOR {list}: data series color
-                LABEL_POSITION {list}: set label position on each line (default: top)
-                LABEL_DISPLAY {list}: set label display (Yes/No)
-                Y_POSITION {list}: set label position on each line (default: top)
-                Y_DISPLAY {list}: set label display (Yes/No)
-                plot_type {str}: plot type, linear or gaussian
-                save_img {bool}: set to save plot (default: False)
-                img_name {str}: plot name (file name)
-                target_dir {str}: plot img to target dir
-                plot_sub {dict}: subplot details
-                row {number}: plot row
-                col {number}: plot column
-                y_label {str}: y label text
-                x_label {str}: x label text
-                plot_title {str}: plot title
-                xlim {list[number]}: x-axis range
-                ylim {list[number]}: y-axis range
-                figsize {list[number]}: fig size (default: [10,6])
-                y_major_locator {number}: set y-axis major locator
+        Parameters
+        ----------
+        data : list
+            data series
+        save_img : bool
+            set to save plot (default: True)
+
+        Returns
+        -------
+        bool
+            True
+
         '''
         # set options
         plot_type = self.options.get('plot_type')
@@ -514,3 +575,6 @@ class PlotResult():
 
         # Display the plot
         plt.show()
+
+        # res
+        return True

@@ -21,8 +21,14 @@ class SummaryResult:
         '''
         Transform the summary result to excel file
 
-        return:
-            True
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        res : bool
+            True if the conversion was successful
         '''
         try:
             # check file/folder
@@ -52,13 +58,17 @@ class SummaryResult:
 
     def ReadFile(self, filePath):
         '''
-        read the content of file and put the info in a matrix
+        Read the content of file and put the info in a matrix
 
-        args:
-            filePath: full name of file with directory and format
+        Parameters
+        ----------
+        filePath : str
+            full name of file with directory and format
 
-        return:
-            res: matrix of info
+        Returns
+        -------
+        tuple
+            fileName, item_rows, column_names
         '''
         try:
             # file info
@@ -136,14 +146,19 @@ class SummaryResult:
 
     def AnalyzeFiles(self, targetPath, fileList):
         '''
-        analyze each file
+        Analyze each file
 
-        args:
-            targetPath: target folder
-            fileList: list of selected files
+        Parameters
+        ----------
+        targetPath : str
+            full name of file with directory and format
+        fileList : list
+            list of selected files
 
-        output:
-            res: dict
+        Returns
+        -------
+        res : list
+            list of file paths
         '''
         try:
             # check
@@ -168,11 +183,23 @@ class SummaryResult:
 
     def save_data_to_excel(self, d, excel_file_dir='', excel_file_name='', excel_engine='xlsxwriter'):
         '''
-        save gaussian output.log to excel
+        Save gaussian output.log to excel
 
-        args:
-            d: input data
-                file name
+        Parameters
+        ----------
+        d : list
+            list of data
+        excel_file_dir : str
+            path of excel file
+        excel_file_name : str
+            name of excel file
+        excel_engine : str
+            engine of excel file
+
+        Returns
+        -------
+        bool
+            True if the operation was successful.
         '''
         # file name
         if excel_file_name == '':
@@ -244,3 +271,6 @@ class SummaryResult:
 
         # close
         writer.close()
+
+        # res
+        return True
