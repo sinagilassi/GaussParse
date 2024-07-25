@@ -10,7 +10,7 @@ import pathlib
 
 # worked
 # sys.path.insert(0, os.path.abspath('../../../GaussParse/'))
-sys.path.insert(0, os.path.abspath('../GaussParse/'))
+sys.path.insert(0, os.path.abspath('.'))
 
 
 # -- Project information -----------------------------------------------------
@@ -24,8 +24,16 @@ release = '1.1.0'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['sphinx.ext.todo', 'sphinx.ext.viewcode',
-              'sphinx.ext.autodoc', 'sphinx.ext.napoleon', 'sphinx.ext.ifconfig']
+# extensions = ['sphinx.ext.todo', 'sphinx.ext.viewcode',
+#               'sphinx.ext.autodoc', 'sphinx.ext.napoleon', 'sphinx.ext.ifconfig']
+
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.napoleon',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.todo',
+    'sphinx.ext.autosummary',
+]
 
 # The master toctree document.
 # master_doc = 'index'
