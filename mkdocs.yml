@@ -1,4 +1,5 @@
 site_name: GaussParse
+site_url: https://sinagilassi.github.io/GaussParse/
 theme:
   name: material
   features:
