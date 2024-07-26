@@ -1,5 +1,4 @@
 site_name: GaussParse
-site_url: https://sinagilassi.github.io/GaussParse/
 theme:
   name: material
   features:
@@ -28,16 +27,16 @@ theme:
   #     accent: lime
 
 plugins:
-  - social
+  # - social
   - search
   - mkdocstrings
 
-extra:
-  social:
-    - icon: fontawesome/brands/github-alt
-      link: https://github.com/sinagilassi
-    - icon: fontawesome/brands/linkedin
-      link: https://www.linkedin.com/in/sina-gilassi
+# extra:
+#   social:
+#     - icon: fontawesome/brands/github-alt
+#       link: https://github.com/sinagilassi
+#     - icon: fontawesome/brands/linkedin
+#       link: https://www.linkedin.com/in/sina-gilassi
 
 markdown_extensions:
   - pymdownx.highlight:
