@@ -9,8 +9,8 @@ import sys
 import pathlib
 # worked
 # sys.path.insert(0, os.path.abspath('../GaussParse'))
-sys.path.insert(0, os.path.abspath('..'))
-# sys.path.insert(0, os.path.abspath('../../../../GaussParse/'))
+# sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('../..'))
 
 # path = pathlib.Path(__file__).resolve() / '..' / '..' / 'GaussParse'
 
