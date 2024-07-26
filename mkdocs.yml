@@ -1,5 +1,4 @@
 site_name: GaussParse
-
 theme:
   name: material
   features:
