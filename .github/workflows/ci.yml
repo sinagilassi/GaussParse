@@ -20,5 +20,8 @@ jobs:
           path: .cache
       - run: pip install mkdocs-material
       - run: pip install mkdocstrings
+      - run: pip install mkdocs-material-extensions
+      - run: pip install mkdocs-mermaid2-plugin
+      - run: pip install mkdocs-include-markdown-plugin
       - run: pip install pillow cairosvg
       - run: mkdocs gh-deploy --force
