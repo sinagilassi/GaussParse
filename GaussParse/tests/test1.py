@@ -12,20 +12,26 @@ print(f"GaussParse version: {gp.__version__}")
 # *******************************
 # excel file
 # xls_file = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\frustose-TS2-data.xlsx'
+# xls_file = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-limonene-mechanism-1-b3lyp.xlsx'
+# log files
 # gp.collect_files_from(xls_file, sheet_name="Sheet1")
+# txt files
+# gp.collect_files_from(xls_file, sheet_name="Sheet2")
 
 # *******************************
 # Save result summary to Excel
 # *******************************
 # file
-# gaussian_log = r"D:\OneDrive\Project Analysis\Computational Chemistry\analysis\terpens epoxidation\extract data\aceton-test\1,2LO.txt"
+gaussian_log = r"D:\OneDrive\Project Analysis\Computational Chemistry\analysis\terpens epoxidation\extract data\aceton-test\1,2LO.txt"
 # save in excel
-# gp.result_summary_to_excel(gaussian_log)
+res, dfs = gp.result_summary_to_excel(gaussian_log)
+print(res)
+print(dfs, type(dfs))
 
 # folder
 # gaussian_log_folder = r"D:\OneDrive\Project Analysis\Computational Chemistry\analysis\terpens epoxidation\extract data\aceton-test"
 # gaussian_log_folder = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-TS2-data'
-# gaussian_log_folder = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\frustose-TS2-data'
+# gaussian_log_folder = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-limonene-mechanism-1-b3lyp'
 # save in excel
 # gp.result_summary_to_excel(gaussian_log_folder)
 

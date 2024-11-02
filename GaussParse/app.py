@@ -74,6 +74,8 @@ def result_summary_to_excel(src: str):
     -------
     res : bool
         True if the conversion was successful.
+    dfs : dict
+        the list of dataframe
 
     Raises
     ------
@@ -82,10 +84,10 @@ def result_summary_to_excel(src: str):
     """
     try:
         SummaryResultClass = SummaryResult(src)
-        res = SummaryResultClass.toExcel()
-        return res
+        res, dfs = SummaryResultClass.toExcel()
+        return res, dfs
     except Exception as e:
-        print(e)
+        raise Exception("Conversion failed!, ", e)
 
 
 def input_orientation_to_txt(src: str, file_name=""):

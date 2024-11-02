@@ -29,6 +29,8 @@ class SummaryResult:
         -------
         res : bool
             True if the conversion was successful
+        dfs : dict
+            list of dataframe
         '''
         try:
             # check file/folder
@@ -50,11 +52,12 @@ class SummaryResult:
             analyzed_files = self.AnalyzeFiles(file_dir, file_list)
 
             # transform to excel
-            self.save_data_to_excel(analyzed_files, excel_file_dir=file_dir)
+            res, dfs = self.save_data_to_excel(
+                analyzed_files, excel_file_dir=file_dir)
 
-            return True
-        except Exception:
-            pass
+            return res, dfs
+        except Exception as e:
+            raise Exception("Excel conversion failed!, ", e)
 
     def ReadFile(self, filePath):
         '''
@@ -200,6 +203,8 @@ class SummaryResult:
         -------
         bool
             True if the operation was successful.
+        df_list : dict
+            list of dataframes
         '''
         # file name
         if excel_file_name == '':
@@ -225,6 +230,9 @@ class SummaryResult:
 
         writer = pd.ExcelWriter(excel_file_path, engine='xlsxwriter')
 
+        # df list
+        df_dict = {}
+
         # add each df to the excel sheet
         for item in d:
             # sheet name
@@ -236,6 +244,9 @@ class SummaryResult:
             df = pd.DataFrame.from_dict(sheet_data)
             # size
             row, col = df.shape
+
+            # save df
+            df_dict[sheet_name] = df
 
             # check excel engine
             if excel_engine == 'xlsxwriter':
@@ -273,4 +284,4 @@ class SummaryResult:
         writer.close()
 
         # res
-        return True
+        return True, df_dict
