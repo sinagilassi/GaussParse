@@ -184,7 +184,7 @@ class SummaryResult:
         except Exception as e:
             print(e)
 
-    def save_data_to_excel(self, d, excel_file_dir='', excel_file_name='', excel_engine='xlsxwriter'):
+    def save_data_to_excel(self, d, excel_file_dir='', excel_file_name='', excel_engine='xlsxwriter') -> tuple[bool, dict[str, pd.DataFrame]]:
         '''
         Save gaussian output.log to excel
 
@@ -203,8 +203,8 @@ class SummaryResult:
         -------
         bool
             True if the operation was successful.
-        df_list : dict
-            list of dataframes
+        df_list : dict[str, pd.DataFrame]
+            list of dataframe
         '''
         # file name
         if excel_file_name == '':

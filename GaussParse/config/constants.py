@@ -1,5 +1,11 @@
 # GaussParse version
-__version__ = "1.2.0"
+__version__ = "1.2.1"
+# author
+__author__ = "Sina Gilassi"
+# app name
+APP_NAME = 'GaussParse'
+# app description
+APP_DESCRIPTION = f'{APP_NAME} {__version__} is a python package to parse Gaussian output files.'
 
 
 # periodic table dict

@@ -18,7 +18,7 @@ class Structure():
         # file path
         self.target_dir = ''
 
-    def toTxt(self, file_name):
+    def toTxt(self, file_name: str):
         '''
         Transform to txt
 
@@ -91,7 +91,7 @@ class Structure():
             # return
             return res
         except Exception as e:
-            print(e)
+            raise Exception("toXYZ Operation failed!, ", e)
 
     def ReadXYZLogFile(self, filePath, pt_dict):
         '''
@@ -198,7 +198,7 @@ class Structure():
         except Exception as e:
             raise Exception(e)
 
-    def AnalyzeFiles(self, targetPath, fileList):
+    def AnalyzeFiles(self, targetPath: str, fileList: list):
         '''
         analyze each file
 
@@ -233,7 +233,7 @@ class Structure():
             else:
                 raise Exception("file list is empty!")
         except Exception as e:
-            print(e)
+            raise Exception(f"File analysis failed!, {e}")
 
     def save_data_to_txt(self, d, file_name, df_format='string'):
         '''
@@ -327,7 +327,7 @@ Number      Number      Symbol                  X           Y           Z
         # res
         return (True, text_file_path)
 
-    def AnalyzeTxtFiles(self, targetPath, fileList):
+    def AnalyzeTxtFiles(self, targetPath: str, fileList: list[str]):
         '''
         Analyze each file
 
@@ -362,9 +362,9 @@ Number      Number      Symbol                  X           Y           Z
             else:
                 raise Exception("file list is empty!")
         except Exception as e:
-            print(e)
+            raise Exception(f"Text file analysis failed!, {e}")
 
-    def generate_xyz_file(self, atom_list, file_name="molecule"):
+    def generate_xyz_file(self, atom_list: list, file_name: str = "molecule"):
         """
         Generates an XYZ file from a list of atom positions with nicely formatted columns.
 
@@ -410,7 +410,7 @@ Number      Number      Symbol                  X           Y           Z
         # file name
         return _file
 
-    def SaveToXYZ(self, file_path):
+    def SaveToXYZ(self, file_path: str):
         '''
         read the content of txt file
 
@@ -497,9 +497,9 @@ Number      Number      Symbol                  X           Y           Z
 
             return _file_name, item_conv, item_loc, column_names
         except Exception as e:
-            print(e)
+            raise Exception(f"Save to XYZ failed!, {e}")
 
-    def FindStructures(self, txt_file, display_res=False):
+    def FindStructures(self, txt_file: str, display_res: bool = False):
         '''
         Find structures saved in a text file (.txt)
 

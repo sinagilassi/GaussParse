@@ -87,7 +87,7 @@ def checkPath(path):
         return False
 
 
-def generateFileName(name):
+def generateFileName(name: str):
     '''
     Generate a file name
 
@@ -113,4 +113,4 @@ def generateFileName(name):
         filename = f"{name}_{current_time}"
         return filename
     except errGeneral as e:
-        print(e)
+        raise Exception("Generate file name failed!, ", e)

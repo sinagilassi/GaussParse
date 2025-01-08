@@ -1,33 +1,30 @@
 # import packages/modules
 # external
-import os
+from rich import print
+import pandas as pd
 # internal
-from GaussParse.docs import SummaryResult, Structure, Manager, PlotResult, IRCResult
-from GaussParse.config import __version__
+from GaussParse.docs import (
+    SummaryResult, Structure, Manager, PlotResult, IRCResult
+)
+from GaussParse.config import (
+    __version__, __author__, APP_DESCRIPTION)
+from typing import List, Dict, Tuple, Union, Optional, Literal
+
 # local
 # from GaussParse.utils import converter
 
 
-def main():
-    '''
-    Print app version and description
-    '''
+def app_info():
+    '''app version and description'''
     # version
-    print(
-        f'GaussParse {__version__} is a python package to parse Gaussian output files.')
+    print(APP_DESCRIPTION)
 
 
-def app_dir():
+def collect_files_from(file_path: str, file_type: Literal['Excel'] = "Excel",
+                       sheet_name: Literal['Sheet1', 'Sheet2'] = 'Sheet1') -> bool:
     '''
-    Return app directory
-    '''
-    return os.path.dirname(os.path.abspath(__file__))
-
-
-def collect_files_from(file_path, file_type="Excel", sheet_name='Sheet1', ):
-    '''
-    Collect all gaussian files in a folder, excel file format as:
-    Excel file (gaussian log file list.xlsx) located in tests folder
+    The function takes a folder path containing Gaussian files (log and txt files)
+    and converts them into an Excel file.
 
     Parameters
     ----------
@@ -41,12 +38,19 @@ def collect_files_from(file_path, file_type="Excel", sheet_name='Sheet1', ):
     Returns
     -------
     res : bool
-        True if the conversion was successful, copy all files listed in the source file to a folder
+        True if the conversion was successful, copy all files listed in the
+        source file to a folder
 
     Examples
     --------
     >>> collect_files_from('tests', 'Excel', 'Sheet2')
 
+    Notes
+    -----
+    1. Excel file format as:
+        Excel file (gaussian log file list.xlsx) located in the `tests` folder.
+
+    2. The log files MUST be listed in `Sheet1` and txt files in `Sheet2`.
     '''
     try:
         ManagerClass = Manager(file_path, file_type, sheet_name)
@@ -54,20 +58,20 @@ def collect_files_from(file_path, file_type="Excel", sheet_name='Sheet1', ):
         res = ManagerClass.collect_files()
         return res
     except Exception as e:
-        print(e)
+        raise Exception("Conversion failed!, ", e)
 
 
-def result_summary_to_excel(src: str):
+def result_summary_to_excel(src: str) -> Tuple[bool, Dict[str, pd.DataFrame]]:
     """
-    Convert Gaussian results summary text file to an Excel file,\
-    This function takes a file or folder path containing Gaussian results summary text files \
-    and converts them into an Excel file.
+    Convert Gaussian results summary text file to an Excel file,
+    This function takes a file or folder path containing Gaussian results 
+    summary text files and converts them into an Excel file.
 
     Parameters
     ----------
     src : str
-        Path to the file or folder containing the summary text files.\
-        If a folder is provided, all files in the folder will be converted.\
+        Path to the file or folder containing the summary text files.
+        If a folder is provided, all files in the folder will be converted.
         If a file is provided, only that file will be converted.
 
     Returns
@@ -90,7 +94,7 @@ def result_summary_to_excel(src: str):
         raise Exception("Conversion failed!, ", e)
 
 
-def input_orientation_to_txt(src: str, file_name=""):
+def input_orientation_to_txt(src: str, file_name: str = ""):
     """
     Save input orientations shown in Gaussian files to a text file,
     The Gaussian log file is parsed to extract data, such as the molecular orientation in the x, y, and z coordinates, 
@@ -123,7 +127,7 @@ def input_orientation_to_txt(src: str, file_name=""):
         res = StructureClass.toTxt(file_name)
         return res
     except Exception as e:
-        print(e)
+        raise Exception("Operation failed!, ", e)
 
 
 def txt_orientation_to_xyz(src: str):
@@ -139,7 +143,7 @@ def txt_orientation_to_xyz(src: str):
 
     Returns
     -------
-    res : dict
+    res : list
         A dictionary containing the XYZ data.
 
     Raises
@@ -154,10 +158,10 @@ def txt_orientation_to_xyz(src: str):
         res = StructureClass.toXYZ()
         return res
     except Exception as e:
-        print(e)
+        raise Exception("Operation failed!, ", e)
 
 
-def plot_energy_profile(file_path, options={}, sheet_name='Sheet1', save_img=True):
+def plot_energy_profile(file_path: str, options: dict[str, str | int | list[int | float]] = {}, sheet_name: Literal['Sheet1'] = 'Sheet1', save_img: bool = True):
     '''
     Plot energy profile from data stored in an excel file,
 
@@ -182,20 +186,20 @@ def plot_energy_profile(file_path, options={}, sheet_name='Sheet1', save_img=Tru
         path to the excel file
     options : dict
         plot options (default)
-                plot_type {str}: plot type, linear or gaussian (default: linear)
-                img_name {str}: plot name (file name), (default: plot)
-                target_dir {str}: plot img to target dir, (default: the same as source file)
-                plot_sub {dict}: subplot details (not used)
-                row {number}: plot row (not used)
-                col {number}: plot column (not used)
-                y_label {str}: y label text (default: "Gibbs free energy (kcal/mol)")
-                x_label {str}: x label text (default: "Reaction coordinate")
-                plot_title {str}: plot title (default: "")
-                xlim {list[number]}: x-axis range (default: [10, 10])
-                ylim {list[number]}: y-axis range (default: [5, 5])
-                figsize {list[number]}: fig size (default: [12, 6])
-                label_margin {number}: label margin (default: 4) 
-                y_major_locator {number}: set y-axis major locator (default: 5)
+            plot_type {str}: plot type, linear or gaussian (default: linear)
+            img_name {str}: plot name (file name), (default: plot)
+            target_dir {str}: plot img to target dir, (default: the same as source file)
+            plot_sub {dict}: subplot details (not used)
+            row {number}: plot row (not used)
+            col {number}: plot column (not used)
+            y_label {str}: y label text (default: "Gibbs free energy (kcal/mol)")
+            x_label {str}: x label text (default: "Reaction coordinate")
+            plot_title {str}: plot title (default: "")
+            xlim {list[number]}: x-axis range (default: [10, 10])
+            ylim {list[number]}: y-axis range (default: [5, 5])
+            figsize {list[number]}: fig size (default: [12, 6])
+            label_margin {number}: label margin (default: 4) 
+            y_major_locator {number}: set y-axis major locator (default: 5)
     sheet_name : str
         sheet name (default: 'Sheet1')
     save_img : bool
@@ -222,10 +226,10 @@ def plot_energy_profile(file_path, options={}, sheet_name='Sheet1', save_img=Tru
         # return
         return res
     except Exception as e:
-        print(e)
+        raise Exception("Operation failed!, ", e)
 
 
-def plot_irc_profile(file_path: str, options: dict = {}):
+def plot_irc_profile(file_path: str, options: dict[str, str | int | list[int | float]] = {}):
     '''
     Plot IRC profile from gaussian irc log file
     In Gaussian, Results -> IRC/Path... display IRC profile, this figure can be plotted.
@@ -270,8 +274,4 @@ def plot_irc_profile(file_path: str, options: dict = {}):
         # res
         return res
     except Exception as e:
-        print(e)
-
-
-if __name__ == "__main__":
-    main()
+        raise Exception("Operation failed!, ", e)

@@ -3,6 +3,7 @@
 import os
 import pandas as pd
 import shutil
+from rich import print
 # internal
 from GaussParse.utils import CheckFileFormat, checkFile, checkDir, ListFiles
 
