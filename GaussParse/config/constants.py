@@ -1,5 +1,5 @@
 # GaussParse version
-__version__ = "1.3.3"
+__version__ = "1.3.4"
 # author
 __author__ = "Sina Gilassi"
 # app name
