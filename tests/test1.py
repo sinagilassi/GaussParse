@@ -92,3 +92,12 @@ plt_data = "D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\t
 
 # execute
 # gp.plot_irc_profile(plt_data)
+
+# *******************************
+# Display NBO file in a browser
+# *******************************
+# file
+nbo_file = r"E:\Python Projects\universal-projects\GaussParse\nbo_res_two_molecules.log"
+
+# display
+gp.nbo_parser(nbo_file)

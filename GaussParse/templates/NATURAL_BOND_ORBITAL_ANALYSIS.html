@@ -1,0 +1,28 @@
+{% set data = data['NATURAL BOND ORBITAL ANALYSIS:']%}
+<div class="container">
+    <h2 class="mt-5">NBO Analysis Results</h2>
+    <table class="table table-bordered mt-3 table-hover">
+        <thead>
+            <tr class="table-primary">
+                <th>Section</th>
+                <th>Value</th>
+                <th>Percentage Of Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, values in data.items() %}
+            <tr>
+                {% if values[0] == "Total Lewis" or values[0] == "Total non-Lewis" %}
+                    <td class="table-success">{{ values[0] }}</td>
+                    <td class="table-success">{{ values[1] }}</td>
+                    <td class="table-success">{{ values[2] }}</td>
+                {% else %}
+                    <td>{{ values[0] }}</td>
+                    <td>{{ values[1] }}</td>
+                    <td>{{ values[2] }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

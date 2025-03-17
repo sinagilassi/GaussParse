@@ -1,15 +1,15 @@
 # import packages/modules
 # external
+import os
 from rich import print
 import pandas as pd
-# internal
-from GaussParse.docs import (
-    SummaryResult, Structure, Manager, PlotResult, IRCResult
-)
-from GaussParse.config import (
-    __version__, __author__, APP_DESCRIPTION)
 from typing import List, Dict, Tuple, Union, Optional, Literal
-
+# internal
+from .docs import (
+    SummaryResult, Structure, Manager, PlotResult, IRCResult, NBOParser
+)
+from .config import (
+    __version__, __author__, APP_DESCRIPTION)
 # local
 # from GaussParse.utils import converter
 
@@ -64,7 +64,7 @@ def collect_files_from(file_path: str, file_type: Literal['Excel'] = "Excel",
 def result_summary_to_excel(src: str) -> Tuple[bool, Dict[str, pd.DataFrame]]:
     """
     Convert Gaussian results summary text file to an Excel file,
-    This function takes a file or folder path containing Gaussian results 
+    This function takes a file or folder path containing Gaussian results
     summary text files and converts them into an Excel file.
 
     Parameters
@@ -97,7 +97,7 @@ def result_summary_to_excel(src: str) -> Tuple[bool, Dict[str, pd.DataFrame]]:
 def input_orientation_to_txt(src: str, file_name: str = ""):
     """
     Save input orientations shown in Gaussian files to a text file,
-    The Gaussian log file is parsed to extract data, such as the molecular orientation in the x, y, and z coordinates, 
+    The Gaussian log file is parsed to extract data, such as the molecular orientation in the x, y, and z coordinates,
     and saves this data to a text file.
 
     Parameters
@@ -198,7 +198,7 @@ def plot_energy_profile(file_path: str, options: dict[str, str | int | list[int 
             xlim {list[number]}: x-axis range (default: [10, 10])
             ylim {list[number]}: y-axis range (default: [5, 5])
             figsize {list[number]}: fig size (default: [12, 6])
-            label_margin {number}: label margin (default: 4) 
+            label_margin {number}: label margin (default: 4)
             y_major_locator {number}: set y-axis major locator (default: 5)
     sheet_name : str
         sheet name (default: 'Sheet1')
@@ -248,7 +248,7 @@ def plot_irc_profile(file_path: str, options: dict[str, str | int | list[int | f
             xlim {list[number]}: x-axis range (default: [10, 10])
             ylim {list[number]}: y-axis range (default: [5, 5])
             figsize {list[number]}: fig size (default: [12, 6])
-            label_margin {number}: label margin (default: 4) 
+            label_margin {number}: label margin (default: 4)
             y_major_locator {number}: set y-axis major locator (default: 5)
             plt_style {str}: plot theme (default: bmh),
             line_color {str}: plot line color (default: blue),
@@ -273,5 +273,42 @@ def plot_irc_profile(file_path: str, options: dict[str, str | int | list[int | f
             res = IRCResultClass.toImage()
         # res
         return res
+    except Exception as e:
+        raise Exception("Operation failed!, ", e)
+
+
+def nbo_parser(file_path: str):
+    '''
+    Parse Gaussian NBO output file (NBO file) and open extracted data in the browser.
+
+    Parameters
+    ----------
+    file_path : str
+        path to the NBO output file
+
+    Returns
+    -------
+    None
+
+    Raises
+    ------
+    Exception
+        If there is an error during the conversion process.
+
+    '''
+    try:
+        # check
+        if not file_path.endswith('.log'):
+            raise Exception("Invalid file format, NBO file required!")
+
+        # check file exist
+        if not os.path.exists(file_path):
+            raise Exception("File not found!, ", file_path)
+
+        # init NBOParser
+        nbo_parser = NBOParser(file_path)
+        # NOTE: display in a browser
+        nbo_parser.display_in_browser()
+
     except Exception as e:
         raise Exception("Operation failed!, ", e)

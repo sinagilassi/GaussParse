@@ -1,0 +1,85 @@
+{% set data = data['Summary of Natural Population Analysis:']%}
+<div class="container">
+    <h2 class="mt-5">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+        <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
+        <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8m0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0M4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/>
+    </svg>
+    <span>
+        Summary of Natural Population Analysis
+    </span>
+    </h2>
+    {# SECTION #}
+    <table class="table table-bordered mt-3 table-hover">
+        <thead>
+            <tr class="table-primary">
+                <th>Atom</th>
+                <th>No</th>
+                <th>Charge</th>
+                <th>Core</th>
+                <th>Valence</th>
+                <th>Rydberg</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data['population_data'] %}
+            <tr>
+                {% for item in row %}
+                <td>{{ item }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+            {# SECTION #}
+            <tr class="table-success fw-bold">
+                <td>* Total *</td>
+                <td></td>
+                <td>{{ data['totals']['natural charge'] }}</td>
+                <td>{{ data['totals']['core'] }}</td>
+                <td>{{ data['totals']['valence'] }}</td>
+                <td>{{ data['totals']['rydberg'] }}</td>
+                <td>{{ data['totals']['total'] }}</td>
+            </tr>
+        </tbody>
+    </table>
+    {# SECTION #}
+    <h2 class="mt-5">Population Summary</h2>
+    <table class="table table-bordered mt-3 table-hover">
+        <thead>
+            <tr class="table-primary">
+                <th>Type</th>
+                <th>Value</th>
+                <th>Percentage</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data['population_summary'] %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {# SECTION #}
+    <h2 class="mt-5">Electron Configuration Data</h2>
+    <table class="table table-bordered mt-3 table-hover">
+        <thead>
+            <tr class="table-primary">
+                <th>Atom</th>
+                <th>No</th>
+                <th>Configuration</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data['electron_config_data'] %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

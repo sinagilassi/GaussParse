@@ -1,0 +1,74 @@
+{% set data = data['Natural Bond Orbitals (Summary):']%}
+<div class="container">
+    <h2 class="mt-2">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+        <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
+        <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8m0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0M4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/>
+    </svg>
+    <span>
+        NHO Directionality and "Bond Bending"
+    </span>
+    </h2>
+    {# SECTION #}
+    {% for key, value in data.items() %}
+        <h4 class="mt-2 fst-italic ps-2">
+            {{ value.unit_declaration }}
+        </h4>
+        {# SECTION #}
+        <table class="table table-bordered mt-3 table-hover">
+            <thead>
+                <tr class="table-primary">
+                    <th>No.</th>
+                    <th>Orbital</th>
+                    <th>Bond</th>
+                    <th>Occupancy</th>
+                    <th>Energy</th>
+                    <th>Principal Delocalizations</th>
+                    <th>Geminal</th>
+                    <th>Vicinal</th>
+                    <th>Remote</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {# SECTION #}
+                {% for entry in value.nbo_entries_dict.values() %}
+                    <tr>
+                        <td>{{ entry.entry_number }}</td>
+                        <td>{{ entry.orbital_type }} ({{ entry.orbital_number }})</td>
+                    
+                        <td>{{ entry.bond }}</td>
+                        <td>{{ entry.occupancy }}</td>
+                        <td>{{ entry.energy }}</td>
+                        <td>
+                            {% for deloc in entry.principal_delocalizations %}
+                                {{ deloc.number }} ({{ deloc.type }})
+                            {% endfor %}
+                        </td>
+                        <td>{{ entry.geminal_contributions | join(', ') }}</td>
+                        <td>{{ entry.vicinal_contributions | join(', ') }}</td>
+                        <td>{{ entry.remote_contributions | join(', ') }}</td>
+                    </tr>
+                {% endfor %}
+                
+            </tbody>
+        </table>
+        {# SECTION #}
+        <div>
+            <table class="table table-bordered mt-3 table-hover">
+                <thead>
+                    <tr class="table-success">
+                        <th>Summary</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for line in value.summary %}
+                        <tr>
+                            <td>{{ line }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+</div>

@@ -9,7 +9,8 @@ with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
 
 APP_NAME = 'GaussParse'
 AUTHOR = 'Sina Gilassi'
-VERSION = '1.2.1'
+VERSION = '1.3.1'
+EMAIL = "<sina.gilassi@gmail.com>"
 DESCRIPTION = 'GaussParse is a python package to parse Gaussian output files.'
 LONG_DESCRIPTION = 'GaussParse is a python package to parse Gaussian output files. for instance, it can read log, txt files and convert them to excel/word files.'
 
@@ -18,14 +19,16 @@ setup(
     name=APP_NAME,
     version=VERSION,
     author=AUTHOR,
-    author_email="<sina.gilassi@gmail.com>",
+    author_email=EMAIL,
     description=DESCRIPTION,
     long_description_content_type="text/markdown",
     long_description=long_description,
     packages=find_packages(exclude=['tests', '*.tests', '*.tests.*']),
+    include_package_data=True,
+    package_data={'': ['*.txt', '*.xlsx', '*.docx', '*.png', '*.html']},
     license='MIT',
     install_requires=['pandas', 'numpy', 'openpyxl',
-                      'xlsxwriter', 'docx', 'matplotlib'],
+                      'xlsxwriter', 'docx', 'matplotlib', 'jinja2'],
     keywords=['Python', 'Gaussian Software', 'Computational Chemistry',
               'Gaussian Parser', 'Reaction Energy Profile'],
     classifiers=[
