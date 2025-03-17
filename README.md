@@ -61,7 +61,7 @@ gaussian_log = "1,2LO.txt"
 gp.result_summary_to_excel(gaussian_log)
 ```
 
-![summary-result](./statics/fig1-1.png){ width=50% height=50% }
+![summary-result](./statics/fig1-1.png)
 
 ### 📝 Convert Input Orientation to Text Format
 
@@ -91,7 +91,7 @@ gp.plot_irc_profile(plt_data)
 
 ```
 
-![IRC-profile](./statics/trans-TS1.png){ width=25% height=25% }
+![IRC-profile](./statics/trans-TS1.png)
 
 ### 📉 Plot Energy Profile
 
@@ -104,7 +104,7 @@ plt_data = 'energy.xlsx'
 gp.plot_energy_profile(plt_data)
 ```
 
-![energy-profile](./statics/acetone-mechanism-2.png){width=40% height=40%}
+![energy-profile](./statics/acetone-mechanism-2.png)
 
 ### 🌐 NBO Parser
 
@@ -119,7 +119,7 @@ nbo_file = "nbo.log"
 gp.nbo_parser(nbo_file)
 ```
 
-![nbo-parser](./statics/nbo-2.png){width=50% height=50%}
+![nbo-parser](./statics/nbo-2.png)
 
 ## 📜 License
 
