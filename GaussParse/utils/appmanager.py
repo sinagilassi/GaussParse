@@ -3,7 +3,7 @@
 import os
 import datetime
 # local
-from GaussParse.handlers import errGeneral
+from ..handlers import errGeneral
 
 
 def CheckFileFormat(file_path):

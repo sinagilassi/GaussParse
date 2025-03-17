@@ -4,8 +4,8 @@ import pandas as pd
 import os
 import re
 # internal
-from GaussParse.utils import CheckFileFormat, checkFile, checkDir, ListFiles, generateFileName
-from GaussParse.config import pt_dict
+from ..utils import CheckFileFormat, checkFile, checkDir, ListFiles, generateFileName
+from ..config import pt_dict
 
 
 class Structure():

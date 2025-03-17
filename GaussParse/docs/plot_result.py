@@ -6,7 +6,7 @@ import shutil
 import matplotlib.pyplot as plt
 from matplotlib import ticker
 # internal
-from GaussParse.utils import CheckFileFormat, checkFile, checkDir, ListFiles
+from ..utils import CheckFileFormat, checkFile, checkDir, ListFiles
 
 
 class PlotResult():

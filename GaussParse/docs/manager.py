@@ -5,7 +5,7 @@ import pandas as pd
 import shutil
 from rich import print
 # internal
-from GaussParse.utils import CheckFileFormat, checkFile, checkDir, ListFiles
+from ..utils import CheckFileFormat, checkFile, checkDir, ListFiles
 
 
 class Manager():
@@ -64,7 +64,7 @@ class Manager():
 
         Examples
         --------
-        >>> 
+        >>>
         ...excel file contents:
         ...No | Name | Src
         ...----------------------------
@@ -134,7 +134,7 @@ class Manager():
 
     def copy_files(self, df_list, destination_folder_dir):
         '''
-        Copy all files from the source folder to the destination folder 
+        Copy all files from the source folder to the destination folder
 
         Parameters
         ----------

@@ -4,7 +4,7 @@ import pandas as pd
 import os
 import re
 # internal
-from GaussParse.utils import CheckFileFormat, checkFile, checkDir, ListFiles, generateFileName
+from ..utils import CheckFileFormat, checkFile, checkDir, ListFiles, generateFileName
 
 
 class SummaryResult:

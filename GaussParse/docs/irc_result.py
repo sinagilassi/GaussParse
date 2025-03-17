@@ -6,7 +6,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import ticker
 # internal
-from GaussParse.utils import CheckFileFormat, checkFile, checkDir, ListFiles, generateFileName, EnergyUnit
+from ..utils import CheckFileFormat, checkFile, checkDir, ListFiles, generateFileName, EnergyUnit
 
 
 class IRCResult:
@@ -207,7 +207,7 @@ class IRCResult:
         Returns
         -------
         res : List
-            list of fileNames 
+            list of fileNames
 
         '''
         try:
