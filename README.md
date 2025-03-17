@@ -1,6 +1,6 @@
 # GaussParse
 
-![header](./statics/header.png){width=25% height=25%}
+![header](./statics/header.png)
 
 ![Downloads](https://img.shields.io/pypi/dm/GaussParse) ![PyPI](https://img.shields.io/pypi/v/GaussParse) ![License](https://img.shields.io/pypi/l/GaussParse)
 
