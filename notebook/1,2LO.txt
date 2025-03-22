@@ -1,0 +1,45 @@
+Filename = D:/OneDrive/Project Analysis/Computational Chemistry/models/terpens epoxidation/limonene-dmdo/mechanism 1/step 1/qst3/res 1/irc/res 1/1-2 limonene epoxide/res 1/link/res 1/solvent/res 1/g09_exp.log
+
+Overview Tab Data Section:
+TS1 (Optimization completed)
+D:/OneDrive/Project Analysis/Computational Chemistry/models/terpens epoxidation/limonene-dmdo/mechanism 1/step 1/qst3/res 1/irc/res 1/1-2 limonene epoxide/res 1/link/res 1/solvent/res 1/g09_exp.log
+File Type = .log
+Calculation Type = FREQ
+Calculation Method = RM062X
+Basis Set = 6-311++G(d,p)
+Charge = 0
+Spin = Singlet
+Solvation = scrf=solvent=acetone
+E(RM062X) = -465.80206 Hartree
+RMS Gradient Norm = 2.17e-06 Hartree/Bohr
+Imaginary Freq = 0
+Dipole Moment = 3.0908442 Debye
+Polarizability (?) = 148.99367 a.u.
+Point Group = C1
+Job cpu time:       0 days  4 hours 19 minutes 53.1 seconds.
+
+Thermo Tab Data Section:
+Imaginary Freq = 0
+Temperature = 298.15 Kelvin
+Pressure = 1 atm
+Frequencies scaled by = 1
+Electronic Energy (EE) = -465.80206 Hartree
+Zero-point Energy Correction = 0.241656 Hartree
+Thermal Correction to Energy = 0.252691 Hartree
+Thermal Correction to Enthalpy = 0.253636 Hartree
+Thermal Correction to Free Energy = 0.205438 Hartree
+EE + Zero-point Energy = -465.5604 Hartree
+EE + Thermal Energy Correction = -465.54937 Hartree
+EE + Thermal Enthalpy Correction = -465.54842 Hartree
+EE + Thermal Free Energy Correction = -465.59662 Hartree
+E (Thermal) = 158.566 kcal/mol
+Heat Capacity (Cv) = 43.502 cal/mol-kelvin
+Entropy (S) = 101.44 cal/mol-kelvin
+
+Opt Tab Data Section:
+Step number = 1
+Maximum force = 2e-06 Converged
+RMS force = 0 Converged
+Maximum displacement = 3.8e-05 Converged
+RMS displacement = 7e-06 Converged
+Predicted energy change = -1.619545e-11 Hartree

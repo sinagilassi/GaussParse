@@ -1,4 +1,5 @@
 import GaussParse as gp
+import os
 # print("GaussParse: ")
 
 # version
@@ -100,4 +101,4 @@ plt_data = "D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\t
 nbo_file = r"E:\Python Projects\universal-projects\GaussParse\nbo_res_two_molecules.log"
 
 # display
-gp.nbo_parser(nbo_file)
+# gp.nbo_parser(nbo_file)
