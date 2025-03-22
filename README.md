@@ -121,6 +121,16 @@ gp.nbo_parser(nbo_file)
 
 ![nbo-parser](./statics/nbo-2.png)
 
+For a quick analysis without installing the package, you can use our online web application:
+
+[https://gaussnbo.up.railway.app/](https://gaussnbo.up.railway.app/)
+
+This web interface allows you to:
+
+* Upload your Gaussian NBO log files
+* Analyze NBO data directly in your browser
+* Visualize results without any local installation
+
 ## 📜 License
 
 [MIT](https://choosealicense.com/licenses/mit/)
