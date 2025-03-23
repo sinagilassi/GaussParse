@@ -28,6 +28,22 @@ Install this project
   pip install GaussParse
 ```
 
+## 📓 Interactive Notebooks with Binder
+
+Try GaussParse directly in your browser without any installation using Binder. Click on any of the following links to launch interactive Jupyter notebooks:
+
+* [IRC Profile Analysis](https://mybinder.org/v2/gh/sinagilassi/GaussParse/HEAD?urlpath=%2Fdoc%2Ftree%2Fnotebook%2Firc-profile.ipynb) - Analyze and plot IRC profiles
+* [Energy Profile Analysis](https://mybinder.org/v2/gh/sinagilassi/GaussParse/HEAD?urlpath=%2Fdoc%2Ftree%2Fnotebook%2Fenergy-profile.ipynb) - Create and visualize energy profiles
+* [Save XYZ Format](https://mybinder.org/v2/gh/sinagilassi/GaussParse/HEAD?urlpath=%2Fdoc%2Ftree%2Fnotebook%2Fsave-xyz.ipynb) - Convert Gaussian output to XYZ format
+* [Summary Result to Excel](https://mybinder.org/v2/gh/sinagilassi/GaussParse/HEAD?urlpath=%2Fdoc%2Ftree%2Fnotebook%2Fsummary-result.ipynb) - Generate summary result tables in Excel
+* [Transform XYZ Format](https://mybinder.org/v2/gh/sinagilassi/GaussParse/HEAD?urlpath=%2Fdoc%2Ftree%2Fnotebook%2Ftransform-xyz.ipynb) - Transform to XYZ format used by other computational software
+
+Binder allows you to:
+
+* Experiment with GaussParse functionality in a live environment
+* Run example notebooks with sample data
+* Learn how to use the package through interactive examples
+
 ## 🚀 Usage Example
 
 ### 📥 Import GaussParse
