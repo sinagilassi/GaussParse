@@ -3,6 +3,7 @@
 import pandas as pd
 import os
 import re
+from typing import Optional, Union, List, Dict, Tuple, Literal
 # internal
 from ..utils import CheckFileFormat, checkFile, checkDir, ListFiles, generateFileName
 
@@ -11,12 +12,15 @@ class SummaryResult:
     '''
     Parse result class
     '''
-    # excel file name
+    # set default file name
     excel_default_file_name = 'summary_result'
-
-    def __init__(self, src):
+    
+    def __init__(self, src: str, output_dir: Optional[str] = None, 
+                 excel_file_name: Optional[str] = None):
         self.src = src
-
+        self.output_dir = output_dir
+        self.excel_file_name = excel_file_name if excel_file_name is not None else self.excel_default_file_name
+        
     def toExcel(self):
         '''
         Transform the summary result to excel file
@@ -33,7 +37,7 @@ class SummaryResult:
             list of dataframe
         '''
         try:
-            # check file/folder
+            # NOTE: check file/folder
             if checkFile(self.src):
                 # read file
                 fileDir, fileName, fileExtension = CheckFileFormat(self.src)
@@ -43,21 +47,72 @@ class SummaryResult:
                     file = fileName+fileExtension
                     file_list = [file]
 
+            # NOTE: check folder
             if checkDir(self.src):
                 # read folder
                 file_dir = self.src
                 file_list = ListFiles(file_dir)
 
-            # analyze each file
+            # NOTE: analyze each file
             analyzed_files = self.AnalyzeFiles(file_dir, file_list)
 
-            # transform to excel
+            # NOTE: check output directory
+            if self.output_dir is not None:
+                # check output directory
+                if not os.path.exists(self.output_dir):
+                    os.makedirs(self.output_dir)
+                    
+                # set output directory
+                file_dir = self.output_dir
+                        
+            # NOTE: transform to excel
             res, dfs = self.save_data_to_excel(
-                analyzed_files, excel_file_dir=file_dir)
+                analyzed_files, excel_file_dir=file_dir, excel_file_name=self.excel_file_name)
 
             return res, dfs
         except Exception as e:
             raise Exception("Excel conversion failed!, ", e)
+        
+    def toDataframe(self):
+        '''
+        Transform the summary result to dataframe
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        res : Dict[str, pd.DataFrame]
+            dictionary of dataframes
+        '''
+        try:
+            # NOTE: check file/folder
+            if checkFile(self.src):
+                # read file
+                fileDir, fileName, fileExtension = CheckFileFormat(self.src)
+                # check extension
+                if fileExtension == '.txt':
+                    file_dir = fileDir
+                    file = fileName+fileExtension
+                    file_list = [file]
+
+            # NOTE: check folder
+            if checkDir(self.src):
+                # read folder
+                file_dir = self.src
+                file_list = ListFiles(file_dir)
+
+            # NOTE: analyze each file
+            analyzed_files = self.AnalyzeFiles(file_dir, file_list)
+
+            res = self.generate_df(
+                analyzed_files)
+            
+            # res
+            return res
+        except Exception as e:
+            raise Exception("Dataframe conversion failed!, ", e)
 
     def ReadFile(self, filePath):
         '''
@@ -184,7 +239,7 @@ class SummaryResult:
         except Exception as e:
             print(e)
 
-    def save_data_to_excel(self, d, excel_file_dir='', excel_file_name='', excel_engine='xlsxwriter') -> tuple[bool, dict[str, pd.DataFrame]]:
+    def save_data_to_excel(self, d, excel_file_dir='', excel_file_name: Optional[str] = None, excel_engine='xlsxwriter') -> tuple[bool, dict[str, pd.DataFrame]]:
         '''
         Save gaussian output.log to excel
 
@@ -203,12 +258,12 @@ class SummaryResult:
         -------
         bool
             True if the operation was successful.
-        df_list : dict[str, pd.DataFrame]
+        df_dict : dict[str, pd.DataFrame]
             list of dataframe
         '''
         # file name
-        if excel_file_name == '':
-            excel_file_name = generateFileName(self.excel_default_file_name)
+        if excel_file_name is None:
+            excel_file_name = generateFileName(self.excel_file_name)
 
         # update name
         excel_file_name = excel_file_name+'.xlsx'
@@ -285,3 +340,41 @@ class SummaryResult:
 
         # res
         return True, df_dict
+
+    def generate_df(self, d) -> dict[str, pd.DataFrame]:
+        '''
+        Save gaussian output.log to excel
+
+        Parameters
+        ----------
+        d : list
+            list of data
+
+        Returns
+        -------
+        df_dict : dict[str, pd.DataFrame]
+            list of dataframe
+        '''
+        try:
+            # df list
+            df_dict: Dict[str, pd.DataFrame] = {}
+
+            # add each df to the excel sheet
+            for item in d:
+                # sheet name
+                sheet_name = item[0]
+                sheet_data = list(item[1].values())
+                sheet_column_name = item[2]
+
+                # df
+                df = pd.DataFrame.from_dict(sheet_data)
+                # size
+                row, col = df.shape
+
+                # save df
+                df_dict[str(sheet_name)] = df
+
+            # res
+            return df_dict
+        except Exception as e:
+            raise Exception("Dataframe generation failed!, ", e)

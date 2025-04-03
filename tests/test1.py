@@ -4,8 +4,8 @@ import os
 
 # version
 print(f"current version: {gp.__version__}")
-# info
-gp.app_info()
+# description
+print(f"description: {gp.__description__}")
 
 # *******************************
 # collect all files
@@ -24,22 +24,31 @@ xls_file = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\t
 # *******************************
 # Save result summary to Excel
 # *******************************
-# file
+# NOTE: file
 # gaussian_log = r"D:\OneDrive\Project Analysis\Computational Chemistry\analysis\terpens epoxidation\extract data\aceton-test\1,2LO.txt"
+gaussian_log = r"D:\OneDrive\Project Analysis\Computational Chemistry\analysis\terpens epoxidation\extract data\aceton-test-1\\1,2LO.txt"
 # save in excel
 # res, dfs = gp.result_summary_to_excel(gaussian_log)
 # print(res)
 # print(dfs, type(dfs))
 
-# folder
-# gaussian_log_folder = r"D:\OneDrive\Project Analysis\Computational Chemistry\analysis\terpens epoxidation\extract data\aceton-test"
+# NOTE: folder
+gaussian_log_folder = r"D:\OneDrive\Project Analysis\Computational Chemistry\analysis\terpens epoxidation\extract data\aceton-test-1"
 # gaussian_log_folder = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-TS2-data'
 # gaussian_log_folder = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-cis-3-Hexene-mechanism-1'
 
-gaussian_log_folder = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-TS comparison-B3LYP'
+# gaussian_log_folder = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-TS comparison-B3LYP'
 
 # save in excel
-# gp.result_summary_to_excel(gaussian_log_folder)
+output_dir = r"D:\OneDrive\Desktop\res"
+# gp.result_summary_to_excel(gaussian_log_folder, output_dir=output_dir, excel_file_name="aceton-test-1")
+
+# *******************************
+# Save result summary to dataframe
+# *******************************
+# dataframe
+df = gp.result_summary_to_dataframe(gaussian_log_folder)
+print(df, type(df))
 
 # *******************************
 # Save input orientation to txt

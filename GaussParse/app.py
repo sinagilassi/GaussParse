@@ -9,15 +9,9 @@ from .docs import (
     SummaryResult, Structure, Manager, PlotResult, IRCResult, NBOParser
 )
 from .config import (
-    __version__, __author__, APP_DESCRIPTION)
+    __version__, __author__, __description__)
 # local
 # from GaussParse.utils import converter
-
-
-def app_info():
-    '''app version and description'''
-    # version
-    print(APP_DESCRIPTION)
 
 
 def collect_files_from(file_path: str, file_type: Literal['Excel'] = "Excel",
@@ -61,7 +55,7 @@ def collect_files_from(file_path: str, file_type: Literal['Excel'] = "Excel",
         raise Exception("Conversion failed!, ", e)
 
 
-def result_summary_to_excel(src: str) -> Tuple[bool, Dict[str, pd.DataFrame]]:
+def result_summary_to_excel(src: str, output_dir: Optional[str] = None, excel_file_name: Optional[str] = None) -> Tuple[bool, Dict[str, pd.DataFrame]]:
     """
     Convert Gaussian results summary text file to an Excel file,
     This function takes a file or folder path containing Gaussian results
@@ -73,7 +67,12 @@ def result_summary_to_excel(src: str) -> Tuple[bool, Dict[str, pd.DataFrame]]:
         Path to the file or folder containing the summary text files.
         If a folder is provided, all files in the folder will be converted.
         If a file is provided, only that file will be converted.
-
+    output_dir : str, optional
+        Path to the output directory where the Excel file will be saved.
+        If not provided, the Excel file will be saved in the same directory as the source file.
+    excel_file_name : str, optional
+        Name of the output Excel file. If not provided, a default name will be used.
+        
     Returns
     -------
     res : bool
@@ -87,12 +86,42 @@ def result_summary_to_excel(src: str) -> Tuple[bool, Dict[str, pd.DataFrame]]:
         If there is an error during the conversion process.
     """
     try:
-        SummaryResultClass = SummaryResult(src)
+        # init
+        SummaryResultClass = SummaryResult(src, output_dir=output_dir, excel_file_name=excel_file_name)
         res, dfs = SummaryResultClass.toExcel()
         return res, dfs
     except Exception as e:
         raise Exception("Conversion failed!, ", e)
+    
+    
+def result_summary_to_dataframe(src: str) -> Dict[str, pd.DataFrame]:
+    """
+    Convert Gaussian results summary text file to an Dataframe file,
 
+    Parameters
+    ----------
+    src : str
+        Path to the file or folder containing the summary text files.
+        If a folder is provided, all files in the folder will be converted.
+        If a file is provided, only that file will be converted.
+        
+    Returns
+    -------
+    res : Dict[str, pd.DataFrame]
+        A dictionary containing the DataFrame data.
+
+    Raises
+    ------
+    Exception
+        If there is an error during the conversion process.
+    """
+    try:
+        # init
+        SummaryResultClass = SummaryResult(src)
+        res = SummaryResultClass.toDataframe()
+        return res
+    except Exception as e:
+        raise Exception("Conversion failed!, ", e)
 
 def input_orientation_to_txt(src: str, file_name: str = ""):
     """
