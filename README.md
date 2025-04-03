@@ -79,6 +79,18 @@ gp.result_summary_to_excel(gaussian_log)
 
 ![summary-result](./statics/fig1-1.png)
 
+
+### 🔄 Convert Result Summary to Pandas DataFrame
+
+Convert Gaussian result summary to dataframe, check the sample file (`1,2LO.txt`).
+
+```python
+# file
+gaussian_log = "1,2LO.txt"
+# save in excel
+gp.result_summary_to_dataframe(gaussian_log)
+```
+
 ### 📝 Convert Input Orientation to Text Format
 
 Input orientation including `center number`, `atomic number`, `atomic symbol`, and `coordinates (X,Y,Z)` are all extracted and saved in a text file.
