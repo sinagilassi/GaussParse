@@ -2,11 +2,10 @@
 # external
 import os
 import pandas as pd
-import shutil
-import matplotlib.pyplot as plt
-from matplotlib import ticker
+# import matplotlib.pyplot as plt
+# from matplotlib import ticker
 # internal
-from ..utils import CheckFileFormat, checkFile, checkDir, ListFiles
+from ..utils import CheckFileFormat, checkFile
 
 
 class PlotResult():
@@ -374,6 +373,11 @@ class PlotResult():
             True
 
         '''
+        # SECTION: import packages
+        import matplotlib.pyplot as plt
+        from matplotlib import ticker
+        
+        # SECTION: check data
         # set options
         plot_type = self.options.get('plot_type')
         img_name = self.options.get('img_name')

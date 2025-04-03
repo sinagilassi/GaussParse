@@ -3,10 +3,10 @@
 import os
 import re
 import pandas as pd
-import matplotlib.pyplot as plt
-from matplotlib import ticker
+# import matplotlib.pyplot as plt
+# from matplotlib import ticker
 # internal
-from ..utils import CheckFileFormat, checkFile, checkDir, ListFiles, generateFileName, EnergyUnit
+from ..utils import CheckFileFormat, checkFile, checkDir, ListFiles, EnergyUnit
 
 
 class IRCResult:
@@ -325,6 +325,12 @@ class IRCResult:
             True for successful action.
 
         '''
+        # SECTION
+        # import libs
+        import matplotlib.pyplot as plt
+        from matplotlib import ticker
+
+        # SECTION
         # Add a title to the plot
         plt.title(title, fontweight='bold', color='black', fontsize=16)
 
