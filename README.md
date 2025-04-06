@@ -68,7 +68,7 @@ gp.collect_files_from(xls_file, sheet_name="Sheet2")
 
 ### 📊 Convert Result Summary to Excel
 
-Convert Gaussian result summary to excel, check the sample file (`1,2LO.txt`).
+Convert Gaussian result summary (`GaussView 6.0.16`) to excel, check the sample file (`1,2LO.txt`).
 
 ```python
 # file
@@ -82,7 +82,7 @@ gp.result_summary_to_excel(gaussian_log)
 
 ### 🔄 Convert Result Summary to Pandas DataFrame
 
-Convert Gaussian result summary to dataframe, check the sample file (`1,2LO.txt`).
+Convert Gaussian result summary (`GaussView 6.0.16`) to dataframe, check the sample file (`1,2LO.txt`).
 
 ```python
 # file
