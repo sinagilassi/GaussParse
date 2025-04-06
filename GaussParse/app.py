@@ -122,6 +122,36 @@ def result_summary_to_dataframe(src: str) -> Dict[str, pd.DataFrame]:
         return res
     except Exception as e:
         raise Exception("Conversion failed!, ", e)
+    
+def result_summary_to_dict(src: str) -> Dict[str, Dict[str, str | float]]:
+    """
+    Convert Gaussian results summary text file to a dictionary.
+
+    Parameters
+    ----------
+    src : str
+        Path to the file or folder containing the summary text files.
+        If a folder is provided, all files in the folder will be converted.
+        If a file is provided, only that file will be converted.
+
+    Returns
+    -------
+    res : dict
+        A dictionary containing the summary data.
+
+    Raises
+    ------
+    Exception
+        If there is an error during the conversion process.
+    """
+    try:
+        # init
+        SummaryResultClass = SummaryResult(src)
+        res_ = SummaryResultClass.toDataframe()
+        res = SummaryResultClass.to_Dict(res_)
+        return res
+    except Exception as e:
+        raise Exception("Conversion failed!, ", e)
 
 def input_orientation_to_txt(src: str, file_name: str = ""):
     """

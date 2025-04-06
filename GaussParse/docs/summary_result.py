@@ -370,11 +370,34 @@ class SummaryResult:
                 df = pd.DataFrame.from_dict(sheet_data)
                 # size
                 row, col = df.shape
-
+                
                 # save df
                 df_dict[str(sheet_name)] = df
-
+                
             # res
             return df_dict
         except Exception as e:
             raise Exception("Dataframe generation failed!, ", e)
+        
+    def to_Dict(self, data: Dict[str, pd.DataFrame]) -> Dict[str, Dict[str, Union[str, float]]]:
+        '''
+        Convert the dataframe to dictionary
+        
+        Parameters
+        ----------
+        df_dict : dict[str, pd.DataFrame]
+            dictionary of dataframes
+            
+        Returns
+        -------
+        res : dict[str, Dict[str, Union[str, float]]]
+            dictionary of dictionaries
+        '''
+        try:
+            res = {}
+            for sheet_name, df in data.items():
+                # convert to dictionary
+                res[sheet_name] = df.to_dict(orient='records')
+            return res
+        except Exception as e:
+            raise Exception("Dictionary conversion failed!, ", e)

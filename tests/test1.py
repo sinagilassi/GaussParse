@@ -47,8 +47,12 @@ output_dir = r"D:\OneDrive\Desktop\res"
 # Save result summary to dataframe
 # *******************************
 # dataframe
-df = gp.result_summary_to_dataframe(gaussian_log_folder)
-print(df, type(df))
+# df = gp.result_summary_to_dataframe(gaussian_log_folder)
+# print(df, type(df))
+
+# to dict
+res = gp.result_summary_to_dict(gaussian_log_folder)
+print(res, type(res))
 
 # *******************************
 # Save input orientation to txt
