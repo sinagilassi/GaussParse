@@ -41,7 +41,7 @@ gaussian_log_folder = r"D:\OneDrive\Project Analysis\Computational Chemistry\ana
 
 # save in excel
 output_dir = r"D:\OneDrive\Desktop\res"
-# gp.result_summary_to_excel(gaussian_log_folder, output_dir=output_dir, excel_file_name="aceton-test-1")
+gp.result_summary_to_excel(gaussian_log_folder, output_dir=output_dir, excel_file_name="aceton-test-1")
 
 # *******************************
 # Save result summary to dataframe
@@ -51,8 +51,8 @@ output_dir = r"D:\OneDrive\Desktop\res"
 # print(df, type(df))
 
 # to dict
-res = gp.result_summary_to_dict(gaussian_log_folder)
-print(res, type(res))
+# res = gp.result_summary_to_dict(gaussian_log_folder)
+# print(res, type(res))
 
 # *******************************
 # Save input orientation to txt
