@@ -15,7 +15,10 @@ print(f"description: {gp.__description__}")
 # xls_file = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-limonene-mechanism-1-b3lyp.xlsx'
 # xls_file = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-cis-3-Hexene-mechanism-1.xlsx'
 
-xls_file = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-irc-B3LYP.xlsx'
+# xls_file = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-irc-B3LYP.xlsx'
+# b3lyp-d3
+xls_file = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-limonene-mechanism-1-B3LYP-6-311-g(3df-2p)-D3.xlsx'
+
 # log files
 # gp.collect_files_from(xls_file, sheet_name="Sheet1")
 # txt files
@@ -33,15 +36,18 @@ gaussian_log = r"D:\OneDrive\Project Analysis\Computational Chemistry\analysis\t
 # print(dfs, type(dfs))
 
 # NOTE: folder
-gaussian_log_folder = r"D:\OneDrive\Project Analysis\Computational Chemistry\analysis\terpens epoxidation\extract data\aceton-test-1"
+# gaussian_log_folder = r"D:\OneDrive\Project Analysis\Computational Chemistry\analysis\terpens epoxidation\extract data\aceton-test-1"
 # gaussian_log_folder = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-TS2-data'
 # gaussian_log_folder = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-cis-3-Hexene-mechanism-1'
 
 # gaussian_log_folder = 'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-TS comparison-B3LYP'
 
 # save in excel
-output_dir = r"D:\OneDrive\Desktop\res"
-gp.result_summary_to_excel(gaussian_log_folder, output_dir=output_dir, excel_file_name="aceton-test-1")
+# output_dir = r"D:\OneDrive\Desktop\res"
+
+gaussian_log_folder = r'D:\\OneDrive\\Project Analysis\\Computational Chemistry\\analysis\\terpens epoxidation\\extract data\\acetone-limonene-mechanism-1-B3LYP-6-311-g(3df-2p)-D3'
+
+gp.result_summary_to_excel(gaussian_log_folder)
 
 # *******************************
 # Save result summary to dataframe
